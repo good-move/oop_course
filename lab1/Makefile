@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall -std=c++11
 
-all: main clean
+all: cleanAll main clean
 
 main: main.o TritSet.o
 	$(CC) main.o TritSet.o -o main

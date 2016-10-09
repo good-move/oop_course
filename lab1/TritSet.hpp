@@ -12,7 +12,7 @@ using namespace std;
 
 namespace alexgm {
 
-  enum Trit { False, Unknown, True }; // 00, 01, 10
+  enum Trit { False=-1, Unknown=0, True=1 }; // 00, 01, 10
 
   class TritSet {
 
@@ -22,30 +22,35 @@ namespace alexgm {
         ~TritHolder();
         operator Trit();
         Trit& operator= (Trit);
-        Trit& operator== (Trit);
+        bool operator== (Trit);
         void resize(const size_t);
-        void setCurrentIndex(const size_t);
-        size_t getTritSetLength();
       private:
+        friend class TritSet;
         uint* tritSet_;
         size_t index_;
         size_t allocTritSetLength_;
         size_t tritSetLength_; // num of trits
-        size_t arrayLength_; // uint's for length_ trits
+        size_t arrayLength_; // uint's for tritSetLength_ trits
         size_t lastSet_;
 
         size_t computeArrayLength(const size_t);
+        void initArray(uint[], const size_t);
+        void findLastSet();
+        void cleanAfter(const size_t);
     };
 
     public:
+      TritSet(const TritSet&);
       explicit TritSet(const size_t);
       ~TritSet();
       TritHolder& operator[] (const size_t);
-      Trit operator& (Trit&);
+      TritSet& operator&= (TritSet const&);
+      TritSet operator& (TritSet const&);
+      TritSet& operator= (TritSet const&);
       // unordered_map< Trit, int, hash<int> > cardinality();
-      size_t cardinality(Trit);
-      size_t capacity();
-      size_t length();
+      size_t cardinality(Trit) const;
+      size_t capacity() const;
+      size_t length() const;
       void shrink();
       void trim(size_t);
     private:
