@@ -10,10 +10,10 @@ namespace alexgm {
     tritHolder_ = new TritHolder(length);
   }
 
-  TritSet::
+  TritSet:: // copy constructor
   TritSet(const TritSet& tritSet)
   {
-    tritHolder_ = new TritHolder(tritSet.length());
+    tritHolder_ = new TritHolder(tritSet.capacity() * sizeof(uint) * 4);
 
     TritHolder* outerTh = tritSet.tritHolder_;
     tritHolder_->index_               = outerTh->index_;
@@ -21,13 +21,22 @@ namespace alexgm {
     tritHolder_->tritSetLength_       = outerTh->tritSetLength_;
     tritHolder_->arrayLength_         = outerTh->arrayLength_;
     tritHolder_->lastSet_             = outerTh->lastSet_;
-    memcpy(tritHolder_->tritSet_, outerTh->tritSet_, sizeof(uint) * outerTh->arrayLength_);
+    memcpy(tritHolder_->tritSet_, outerTh->tritSet_, sizeof(uint) * tritSet.capacity());
+  }
+
+  TritSet:: // move contructor
+  TritSet(TritSet&& outerSet)
+  {
+    this->tritHolder_ = outerSet.tritHolder_;
+    outerSet.tritHolder_ = nullptr;
   }
 
   TritSet::
   ~TritSet()
   {
-    delete tritHolder_;
+    if (tritHolder_ != nullptr)
+      delete tritHolder_;
+    tritHolder_ = nullptr;
   }
 
   TritSet::TritHolder& TritSet::
@@ -53,13 +62,18 @@ namespace alexgm {
   void TritSet::
   shrink()
   {
-    size_t minSize = (tritHolder_->lastSet_+1 < tritHolder_->allocTritSetLength_ ?
-                      tritHolder_->lastSet_+1 : tritHolder_->allocTritSetLength_);
+    size_t minSize = 0;
+    if (tritHolder_->lastSet_+1 < tritHolder_->allocTritSetLength_) {
+      minSize = tritHolder_->lastSet_+1;
+    } else {
+      minSize = tritHolder_->allocTritSetLength_;
+    }
+
     this->trim(minSize);
   }
 
   void TritSet::
-  trim(size_t lastIndex)
+  trim(const size_t lastIndex)
   {
     if (lastIndex >= 0 && lastIndex < tritHolder_->tritSetLength_) {
       tritHolder_->resize(lastIndex);
@@ -69,74 +83,114 @@ namespace alexgm {
   }
 
   TritSet& TritSet::
-  operator= (TritSet const& outerSet)
+  operator= (const TritSet& outerSet)
   {
-    std::cout << "TritSet::inside operator=" << std::endl;
     if (this != &outerSet) {
-      TritHolder* innerTh = this->tritHolder_;
-      TritHolder* outerTh = outerSet.tritHolder_;
-
-      delete[] innerTh->tritSet_;
-      //copy the guts of outerSet
-      innerTh->index_ = outerTh->index_;
-      innerTh->allocTritSetLength_ = outerTh->allocTritSetLength_;
-      innerTh->tritSetLength_ = outerTh->tritSetLength_;
-      innerTh->arrayLength_ = outerTh->arrayLength_;
-      innerTh->lastSet_ = outerTh->lastSet_;
-      //copy tritSet
-      try {
-        innerTh->tritSet_ = new uint[innerTh->arrayLength_];
-      } catch(bad_alloc& e) {
-        std::cout << "Couldn't allocate " << innerTh->arrayLength_ <<
-                  "bytes for TritSet copy"  << std::endl;
-      }
-      memcpy(innerTh->tritSet_, outerTh->tritSet_, sizeof(uint) * innerTh->arrayLength_);
+      TritSet tmp(outerSet);
+      std::swap(*this, tmp);
     }
     return *this;
   }
 
   TritSet& TritSet::
-  operator&= (TritSet const& outerSet)
+  operator&= (const TritSet& outerSet)
   {
-    size_t maxCapacity = 0;
+    uint placeholder = this->tritHolder_->getPlaceholder();
+    size_t maxCapacity = (this->capacity() > outerSet.capacity()? this->capacity() : outerSet.capacity());
+    this->tritHolder_->resize(maxCapacity * sizeof(uint) * 4);
 
-    if (this->length() > outerSet.length()){
-      maxCapacity = this->capacity();
-    } else {
-      maxCapacity = outerSet.capacity();
-      this->tritHolder_->resize(outerSet.length());
-    }
-
-    for (size_t i = 0; i < maxCapacity; i++) {
+    for (size_t i = 0; i < maxCapacity; ++i) {
       if (i < outerSet.capacity()) {
         this->tritHolder_->tritSet_[i] &= outerSet.tritHolder_->tritSet_[i];
       } else {
-        this->tritHolder_->tritSet_[i] &= 2; // implies ...[i] &= Unknown
+        this->tritHolder_->tritSet_[i] &= placeholder; // implies ...[i] &= Unknown
       }
     }
-
-    this->tritHolder_->findLastSet();
 
     return *this;
   }
 
   TritSet TritSet::
-  operator& (TritSet const& outerSet)
+  operator& (const TritSet& outerSet)
   {
-    // std::cout << this->length() << std::endl; // <-- prevents segfault ??!!
-    TritSet set(outerSet);
-    set &= (*this);
-
-    return set;
+    TritSet tmp(*this);
+    tmp &= outerSet;
+    return tmp;
   }
 
-  /* ************************* TritHolder functions ************************* */
+  TritSet& TritSet::
+  operator|= (const TritSet& outerSet)
+  {
+
+    uint placeholder = this->tritHolder_->getPlaceholder();
+    size_t maxCapacity = (this->capacity() > outerSet.capacity()? this->capacity() : outerSet.capacity());
+    this->tritHolder_->resize(maxCapacity * sizeof(uint) * 4);
+
+    for (size_t i = 0; i < maxCapacity; ++i) {
+      if (i < outerSet.capacity()) {
+        this->tritHolder_->tritSet_[i] |= outerSet.tritHolder_->tritSet_[i];
+      } else {
+        this->tritHolder_->tritSet_[i] |= placeholder; // implies ...[i] |= Unknown
+      }
+    }
+
+    return *this;
+  }
+
+  TritSet TritSet::
+  operator| (const TritSet& outerSet)
+  {
+    TritSet tmp(*this);
+    tmp |= outerSet;
+    return tmp;
+  }
+
+  bool TritSet::
+  operator== (const TritSet& outerSet)
+  {
+    return this->equals(outerSet);
+  }
+
+  bool TritSet::
+  operator!= (const TritSet& outerSet)
+  {
+    return !this->equals(outerSet);
+  }
+
+  TritSet& TritSet::
+  operator~()
+  {
+    for (size_t i = 0; i < this->length(); ++i)
+      (*this)[i] = !((*this)[i]);
+
+    return *this;
+  }
+
+  bool TritSet::
+  equals(const TritSet& outerSet)
+  {
+    if (this->capacity() != outerSet.capacity())
+      return false;
+
+    uint* innerTritSet = this->tritHolder_->tritSet_;
+    uint* outerTritSet = outerSet.tritHolder_->tritSet_;
+
+    for (size_t i = 0; i < this->capacity(); ++i) {
+      if (innerTritSet[i] != outerTritSet[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+/* ************************* TritHolder functions ************************* */
 
   TritSet::TritHolder::
   TritHolder(const size_t length)
   {
     allocTritSetLength_ = length;
     tritSetLength_ = length;
+    lastSet_ = 0;
 
     arrayLength_ = this->computeArrayLength(length);
 
@@ -145,23 +199,32 @@ namespace alexgm {
       this->initArray(tritSet_, arrayLength_);
     } catch (bad_alloc& e) {
       std::cout << "Cannot allocate array of size " << arrayLength_ << std::endl;
+      throw;
     }
   }
 
   TritSet::TritHolder::
   ~TritHolder()
   {
-    delete[] tritSet_;
+    if (tritSet_!= nullptr)
+      delete[] tritSet_;
+    tritSet_ = nullptr;
+  }
+
+  uint TritSet::TritHolder::
+  getPlaceholder() {
+    uint placeholder = 0xAAu;
+    for (size_t i = 1; i < sizeof(uint); ++i) {
+      placeholder = (placeholder << 8) + 0xAAu;
+    }
+    return placeholder;
   }
 
   void TritSet::TritHolder::
-  initArray(uint arr[], const size_t length)
+  initArray(uint* arr, const size_t length)
   {
-    uint placeholder = 0xAA;
-    for (size_t i = 1; i < sizeof(uint); i++) {
-      placeholder = (placeholder << 8) + 0xAA;
-    }
-    for (size_t i = 0; i < length; i++) {
+    uint placeholder = getPlaceholder();
+    for (size_t i = 0; i < length; ++i) {
       arr[i] = placeholder;
     }
   }
@@ -182,142 +245,170 @@ namespace alexgm {
       return;
     }
 
-    // std::cout << "index:" << index << std::endl;
-    // std::cout << "arrayLength_:" << arrayLength_ << std::endl;
-    // for (size_t i = 1; i <= 8*sizeof(uint); i++) {
-    //   uint t = (tritSet_[arrayLength_-1] >> (8*sizeof(uint) - i)) & 1;
-    //   std::cout << t;
-    // }
+    uint placeholder = getPlaceholder();
+    uint trigger = (1u << (2*index)) - 1u;
+    tritSet_[arrayLength_-1] &= ~trigger; // clean after `index` trit (inclusive)
+    tritSet_[arrayLength_-1] |= (placeholder & trigger); // set cleaned bits to placeholder value
 
-    for (size_t tritIndex = 2*index; tritIndex <= 8*sizeof(uint)-2; tritIndex+=2) {
-      std::cout << "tritIndex:" << tritIndex << std::endl;
-      tritSet_[arrayLength_-1] &= ~(3 << tritIndex); // clean bits
-      tritSet_[arrayLength_-1] |= (2 << tritIndex); // set bits
-    }
-
-    // for (size_t i = 1; i <= 8*sizeof(uint); i++) {
-    //   uint t = (tritSet_[arrayLength_-1] >> (8*sizeof(uint) - i)) & 1;
-    //   std::cout << t;
-    // }
   }
 
   void TritSet::TritHolder::
   findLastSet()
   {
+    uint placeholder = getPlaceholder();
+    size_t nonDefaultInd = 0;
+    for (size_t i = 0; i < arrayLength_; ++i) {
+      if (tritSet_[arrayLength_-1-i] != placeholder) {
+        nonDefaultInd = arrayLength_-1-i;
+      }
+    }
 
+    lastSet_ = 0;
+    for (size_t i = 0; i < 8*sizeof(uint); i+=2) {
+      if (((tritSet_[nonDefaultInd] >> i) & 3) != 2) {
+        lastSet_ = (i + nonDefaultInd * sizeof(uint) * 8) / 2;
+      }
+    }
   }
 
   void TritSet::TritHolder::
-  resize(const size_t length)
+  resize(const size_t length) // length === number of trits
   {
+    std::cout << "resizing length: " << length << std::endl;
+
     size_t tempArrayLength = this->computeArrayLength(length);
     if (tempArrayLength == arrayLength_) {
       return;
     }
-    uint* tempTritSet;
 
+    uint* tempTritSet = nullptr;
     try {
-      std::cout << "Trying resize" << std::endl;
+      std::cout << "Trying resize from " << arrayLength_ << " to " << tempArrayLength << std::endl;
+
       tempTritSet = new uint[tempArrayLength];
       this->initArray(tempTritSet, tempArrayLength);
+
+      size_t workLength = (arrayLength_ < tempArrayLength? arrayLength_ : tempArrayLength);
+      memcpy(tempTritSet, tritSet_, sizeof(uint) * workLength);
+
+      delete[] tritSet_;
+      tritSet_ = tempTritSet;
+
+      arrayLength_ = tempArrayLength;
+      tritSetLength_ = length;
     } catch (bad_alloc& e) {
       std::cout << "Cannot resize tritSet. Keeping on working with the old \
                     one of size " << arrayLength_ << std::endl;
+      throw ("hello");
     }
-
-    size_t workLength = (arrayLength_ < tempArrayLength ? arrayLength_ : tempArrayLength);
-    memcpy(tempTritSet, tritSet_, sizeof(uint) * workLength);
-    delete[] tritSet_;
-    tritSet_ = tempTritSet;
-
-    arrayLength_ = tempArrayLength;
-    tritSetLength_ = length;
   }
 
   Trit& TritSet::TritHolder::
-  operator= (Trit trit)
+  operator= (uint tritPrototype)
   {
-    if (this->index_ >= this->tritSetLength_) {
-      std::cout << "Special case for operator=" << std::endl;
-      if (trit == Unknown) {
-        Trit& tempTrit = trit;
-        return tempTrit;
-      } else {
-        this->resize(this->index_ + 1);
-        this->lastSet_ = this->index_;
-        // return Unknown;
-      }
-    }
-    else {
-      if (this->lastSet_ < this->index_) {
-        this->lastSet_ = this->index_;
-      }
+    Trit trit = Unknown;
+    Trit& tritref = trit;
+
+    if (tritPrototype < False || tritPrototype > True) {
+      throw std::out_of_range("TritSet::TritHolder::operator=: "
+                                      "Trit must be inside range [0, 3], "
+                                      "but was assigned value of " + std::to_string(tritPrototype) + ".");
     }
 
-    uint setter = 0;
-    if (trit == -1) {
-      setter = 0;
-    } else if (trit == 1) {
-      setter = 3;
-    } else {
-      setter = 2;
+    trit = static_cast<Trit>(tritPrototype);
+
+    if (index_ > lastSet_) {
+      if (trit == Unknown) return tritref;
+      if (index_ >= tritSetLength_) resize(index_ + 1);
+      lastSet_ = index_;
     }
-    size_t arrayIndex = this->index_ / 4 / sizeof(uint);
-    size_t tritIndex = 2*(this->index_ % (sizeof(uint) * 4));
+
+    uint setter = static_cast<uint>(trit);
+
+    size_t arrayIndex = index_ / (sizeof(uint) * 4);
+    size_t tritIndex = 2*(index_ % (sizeof(uint) * 4));
+
     tritSet_[arrayIndex] &= ~(3 << tritIndex); // clean bits
     tritSet_[arrayIndex] |= ((setter) << tritIndex); // set bits
 
-    Trit& tempTrit = trit;
+    if (trit == Unknown && index_ == lastSet_) {
+      findLastSet();
+    }
 
-    return tempTrit;
+    return tritref;
   }
 
   TritSet::TritHolder::
   operator Trit()
   {
-    if (this->index_ >= this->tritSetLength_) {
-      std::cout << "tritSetLength_:" << this->tritSetLength_ << std::endl;
-      std::cout << "unset";
+    if (index_ >= tritSetLength_) {
       return Unknown;
     }
 
-    size_t arrayIndex = this->index_ / 4 / sizeof(uint);
-    size_t tritIndex = 2*(this->index_ % (sizeof(uint) * 4));
-    uint trit = (tritSet_[arrayIndex] >> tritIndex) & 3;
+    size_t arrayIndex = index_ / (sizeof(uint) * 4);
+    size_t tritIndex = 2*(index_ % (sizeof(uint) * 4));
 
-    switch (trit) {
-      case 0:
-        return False;
-      case 1:
-      case 2:
-        return Unknown;
-      case 3:
-        // std::cout << "true";
-        return True;
-      default:
-        // std::cout << "unset";
-        return Unknown;
-    }
+    return static_cast<Trit>((tritSet_[arrayIndex] >> tritIndex) & 3);
   }
 
   bool TritSet::TritHolder::
-  operator== (Trit trit)
+  operator==(Trit trit)
   {
-    if (this->index_ >= this->tritSetLength_) {
+    return this->equals(trit);
+  }
+
+  bool TritSet::TritHolder::
+  operator!=(Trit trit)
+  {
+    return !this->equals(trit);
+  }
+
+  Trit TritSet::TritHolder::
+  operator!()
+  {
+    if (index_ > lastSet_)
+      return Unknown;
+
+    size_t arrayIndex = index_ / (sizeof(uint) * 4);
+    size_t tritIndex = 2*(index_ % (sizeof(uint) * 4));
+
+    return (Trit) !static_cast<Trit>((tritSet_[arrayIndex] >> tritIndex) & 3);
+  }
+
+  bool TritSet::TritHolder::
+  equals(Trit trit) {
+
+    if (trit < False || trit > True) {
+      return false;
+//      throw std::out_of_range("TritHolder::equals: "
+//                                "Attempt to compare Trit with inappropriate value: " + std::to_string((uint)trit));
+    }
+    if (index_ > lastSet_) {
       return trit == Unknown;
     }
-    size_t arrayIndex = this->index_ / 4 / sizeof(uint);
-    size_t tritIndex = 2*(this->index_ % (sizeof(uint) * 4));
+    size_t arrayIndex = index_ / (sizeof(uint) * 4);
+    size_t tritIndex = 2*(index_ % (sizeof(uint) * 4));
     uint innerTrit = (tritSet_[arrayIndex] >> tritIndex) & 3;
 
-    if ((trit == -1 && innerTrit == 0) ||
-        (trit == 0 && innerTrit == 2) ||
-        (trit == 1 && innerTrit == 3)) {
-      return true;
-    } else {
-      return false;
+    return (trit + 2 >= innerTrit);
+  }
+
+  Trit&
+  operator!(Trit t)
+  {
+    Trit& tr = t;
+    switch (t) {
+      case True:
+        tr = False;
+        break;
+      case False:
+        tr = True;
+        break;
+      default:
+        tr = Unknown;
     }
 
+    return tr;
   }
 
 }

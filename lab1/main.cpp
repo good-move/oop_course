@@ -1,42 +1,70 @@
 #include <iostream>
-#include <list>
+#include <cassert>
 
 #include "TritSet.hpp"
-
-#define N 15
 
 using namespace std;
 using namespace alexgm;
 
 int main(int argc, char const *argv[]) {
 
-  TritSet set1(3);
-  TritSet set2(3);
-  TritSet set3(3);
+  TritSet set(1000);
 
-  set1[0] = True;
-  set1[2] = True;
-
-  set2[0] = False;
-  set2[1] = True;
-  set2[2] = True;
-
-  set1 = set1 & set2 & set3;
-
-  for (size_t i = 0; i < set1.length(); i++) {
-
-    bool b = (set1[i] == set2[i]);
-    std::cout << "value: " << set1[i] << std::endl;
+  size_t allocLength = set.capacity();
+  assert(allocLength >= 1000 * 2 / 8 / sizeof(uint));
+  if (allocLength >= 1000 * 2 / 8 / sizeof(uint)) {
+    std::cout << "success" << std::endl;
   }
+
+  set[1000000000] = Unknown;
+  assert(allocLength == set.capacity());
+  if (allocLength == set.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+  if(set[2000000000]==True){}
+  assert(allocLength == set.capacity());
+  if (allocLength == set.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+  set[1000000000] = True;
+  assert(allocLength < set.capacity());
+  if (allocLength < set.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+
+  allocLength = set.capacity();
+  set[1000000000] = Unknown;
+  set[1000000] = False;
+  assert(allocLength == set.capacity());
+  if (allocLength == set.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+  set.shrink();
+  assert(allocLength > set.capacity());
+  if (allocLength > set.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+  TritSet setA(3);
+  TritSet setB(500);
+  setA[0] = setA[2] = True;
+
+  setB[1] = False;
+  setB[2] = True;
+
+  TritSet setC = (setB & setA) | setB;
+  assert(setC.capacity() == setB.capacity());
+
+  if (setC.capacity() == setB.capacity()) {
+    std::cout << "success" << std::endl;
+  }
+
+
+  cout << (setA[0] == 500);
 
   return 0;
 }
-
-
-/*
- TODO:
- 1) init TritSet | DONE
- 2) [], = overload | DONE
- 3) & | ~ overload
-
-*/
