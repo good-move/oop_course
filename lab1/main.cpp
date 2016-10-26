@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "TritSet.hpp"
+#include "src/TritSet.h"
 
 using namespace std;
 using namespace alexgm;
@@ -62,9 +62,6 @@ int main(int argc, char const *argv[]) {
   if (setC.capacity() == setB.capacity()) {
     std::cout << "success" << std::endl;
   }
-
-
-  cout << (setA[0] == 500);
 
   return 0;
 }
