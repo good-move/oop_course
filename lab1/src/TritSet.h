@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstring>
 #include <new>
+#include <unordered_map>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ namespace alexgm {
   Trit& operator!(Trit);
 
   class TritSet;
+  class TritHash;
 
   const uint BITS_PER_UINT = sizeof(uint) * 8u;
   const uint BITS_PER_TRIT = 2u;
@@ -38,7 +40,7 @@ namespace alexgm {
           void initArray(uint[], const size_t);
           void cleanAfter(const size_t);
           uint getPlaceholder();
-          void findLastSet();
+          void findMaxSetInd();
           bool equals(Trit);
           Trit getTrit(size_t, size_t);
           Trit getTrit();
@@ -60,7 +62,7 @@ namespace alexgm {
       TritSet(TritSet&&);
       ~TritSet();
 
-      TritHolder& operator[] (const size_t);
+      TritHolder& operator[] (const size_t) const;
       TritSet& operator&= (const TritSet&);
       TritSet& operator|= (const TritSet&);
       TritSet& operator= (TritSet const&);
@@ -69,7 +71,7 @@ namespace alexgm {
       bool operator== (const TritSet&);
       bool operator!= (const TritSet&);
       TritSet& operator~ ();
-//      unordered_map< Trit, int, hash<int> > cardinality();
+      unordered_map< Trit, size_t, TritHash > cardinality();
       size_t cardinality(Trit) const;
       size_t capacity() const;
       void trim(const size_t);
@@ -80,6 +82,11 @@ namespace alexgm {
       bool equals(const TritSet&);
 
       TritHolder* tritHolder_;
+  };
+
+  class TritHash {
+    public:
+      uint operator() (const Trit&) const;
   };
 
 }

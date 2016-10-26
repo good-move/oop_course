@@ -2,6 +2,12 @@
 
 namespace alexgm {
 
+  uint TritHash::
+  operator()(const Trit& trit) const
+  {
+    return trit == False? 0u : trit-1u;
+  }
+
   /* **************************  TritSet functions ************************** */
 
   TritSet::
@@ -13,7 +19,7 @@ namespace alexgm {
   TritSet:: // copy constructor
   TritSet(const TritSet& tritSet)
   {
-    tritHolder_ = new TritHolder(tritSet.capacity() * sizeof(uint) * 4);
+    tritHolder_ = new TritHolder(tritSet.capacity() * BITS_PER_UINT / BITS_PER_TRIT);
 
     TritHolder* outerTh = tritSet.tritHolder_;
     tritHolder_->lastAccessedInd_               = outerTh->lastAccessedInd_;
@@ -39,12 +45,31 @@ namespace alexgm {
     tritHolder_ = nullptr;
   }
 
-  TritSet::TritHolder& TritSet::
-  operator[](const size_t index)
+  size_t TritSet::
+  cardinality(Trit trit) const
   {
-    tritHolder_->lastAccessedInd_ = index;
+    size_t tritCount = 0;
 
-    return *tritHolder_;
+    for (size_t i = 0; i < this->length(); ++i) {
+      if ((*this)[i] == trit) {
+        ++tritCount;
+      }
+    }
+
+    return tritCount;
+  }
+
+  unordered_map<Trit, size_t, TritHash> TritSet::
+  cardinality()
+  {
+    unordered_map<Trit, size_t, TritHash> map;
+
+    for (size_t i = 0; i < this->length(); ++i) {
+      Trit trit = (*this)[i];
+      map[trit]++;
+    }
+
+    return map;
   }
 
   size_t TritSet::
@@ -81,8 +106,16 @@ namespace alexgm {
     if (lastIndex >= 0 && lastIndex < tritHolder_->tritSetLength_) {
       tritHolder_->resize(lastIndex);
       tritHolder_->cleanAfter(lastIndex);
-      tritHolder_->findLastSet();
+      tritHolder_->findMaxSetInd();
     }
+  }
+
+  TritSet::TritHolder& TritSet::
+  operator[](const size_t index) const
+  {
+    tritHolder_->lastAccessedInd_ = index;
+
+    return *tritHolder_;
   }
 
   TritSet& TritSet::
@@ -242,7 +275,7 @@ namespace alexgm {
     this->setTrit(setter);
 
     if (trit == Unknown && lastAccessedInd_ == maxSetInd_) {
-      this->findLastSet();
+      this->findMaxSetInd();
     }
 
     return tritref;
@@ -251,7 +284,7 @@ namespace alexgm {
   TritSet::TritHolder::
   operator Trit()
   {
-    if (lastAccessedInd_ >= maxSetInd_) {
+    if (lastAccessedInd_ > maxSetInd_) {
       return Unknown;
     }
 
@@ -331,7 +364,7 @@ namespace alexgm {
   }
 
   void TritSet::TritHolder::
-  findLastSet()
+  findMaxSetInd()
   {
     uint placeholder = this->getPlaceholder();
     size_t nonEmptyByteIndex = 0;
@@ -341,11 +374,10 @@ namespace alexgm {
         nonEmptyByteIndex = arrayLength_-1-i;
       }
     }
-
     maxSetInd_ = 0;
-    for (size_t offset = 0; offset < BITS_PER_UINT; offset+=2) {
+    for (size_t offset = 0; offset < BITS_PER_UINT; offset+=BITS_PER_TRIT) {
       if (this->getTrit(nonEmptyByteIndex, offset) != Unknown) {
-        maxSetInd_ = nonEmptyByteIndex * BITS_PER_UINT / BITS_PER_TRIT + offset;
+        maxSetInd_ = (nonEmptyByteIndex * BITS_PER_UINT + offset) / BITS_PER_TRIT ;
       }
     }
   }
