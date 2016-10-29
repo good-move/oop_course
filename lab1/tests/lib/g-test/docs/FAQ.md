@@ -498,7 +498,7 @@ EXPECT_PRED1(*static_cast<bool (*)(int)>*(IsPositive), 5);
 ```
 
 (The stuff inside the angled brackets for the `static_cast` operator is the
-type of the function pointer for the `int`-version of `IsPositive()`.)
+type of the function pointer_ for the `int`-version of `IsPositive()`.)
 
 As another example, when you have a template function
 

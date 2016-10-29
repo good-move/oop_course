@@ -53,7 +53,7 @@ $var maxtuple = 10  $$ Maximum number of Combine arguments we want to support.
 // another inheritance scheme that's sometimes useful in more complicated
 // class hierarchies), where the type of your parameter values.
 // TestWithParam<T> is itself derived from testing::Test. T can be any
-// copyable type. If it's a raw pointer, you are responsible for managing the
+// copyable type. If it's a raw pointer_, you are responsible for managing the
 // lifespan of the pointed values.
 
 class FooTest : public ::testing::TestWithParam<const char*> {

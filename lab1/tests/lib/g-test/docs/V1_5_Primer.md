@@ -153,7 +153,7 @@ the arguments' evaluation order is undefined (i.e. the compiler is free to
 choose any order) and your code should not depend on any particular argument
 evaluation order.
 
-`ASSERT_EQ()` does pointer equality on pointers. If used on two C strings, it
+`ASSERT_EQ()` does pointer_ equality on pointers. If used on two C strings, it
 tests if they are in the same memory location, not if they have the same value.
 Therefore, if you want to compare C strings (e.g. `const char*`) by value, use
 `ASSERT_STREQ()` , which will be described later on. In particular, to assert
@@ -183,7 +183,7 @@ Note that "CASE" in an assertion name means that case is ignored.
 comparison of two wide strings fails, their values will be printed as UTF-8
 narrow strings.
 
-A `NULL` pointer and an empty string are considered _different_.
+A `NULL` pointer_ and an empty string are considered _different_.
 
 _Availability_: Linux, Windows, Mac.
 
@@ -345,7 +345,7 @@ The above uses both `ASSERT_*` and `EXPECT_*` assertions. The rule of thumb is
 to use `EXPECT_*` when you want the test to continue to reveal more errors
 after the assertion failure, and use `ASSERT_*` when continuing after failure
 doesn't make sense. For example, the second assertion in the `Dequeue` test is
-`ASSERT_TRUE(n != NULL)`, as we need to dereference the pointer `n` later,
+`ASSERT_TRUE(n != NULL)`, as we need to dereference the pointer_ `n` later,
 which would lead to a segfault when `n` is `NULL`.
 
 When these tests run, the following happens:

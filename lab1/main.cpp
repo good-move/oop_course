@@ -8,7 +8,7 @@ using namespace alexgm;
 
 int main(int argc, char const *argv[]) {
 
-//#define ENABLE_TESTS
+#define ENABLE_TESTS
 #ifdef ENABLE_TESTS
 
   TritSet set(1000);
@@ -68,10 +68,16 @@ int main(int argc, char const *argv[]) {
 
 #endif
 
-  TritSet set(10);
+  TritSet setD(10);
 
-  set[0] = set[4] = set[5] = False;
-  set[3] = set[29] = True;
+  setD[0] = setD[4] = setD[5] = False;
+  setD[3] = setD[29] = True;
+
+  cout << "length: " << setD.length() << endl;
+
+  for (auto it : setD) {
+    cout << it << endl;
+  }
 
   return 0;
 }

@@ -12,7 +12,7 @@ TEST(TritSet, ZeroLengthTritSet) {
 
   TritSet set(0);
 
-  EXPECT_EQ(set.length(), 0) << "length() must return length 0";
+  EXPECT_EQ(set.length(), 0);
   EXPECT_EQ(set.capacity(), 0);
 
 
@@ -21,11 +21,11 @@ TEST(TritSet, ZeroLengthTritSet) {
   }
 
   set.shrink();
-  EXPECT_EQ(set.length(), 0) << "shrink() must not perform any operations";
+  EXPECT_EQ(set.length(), 0);
   EXPECT_EQ(set.capacity(), 0);
 
   set.trim(15);
-  EXPECT_EQ(set.length(), 0) << "trim() must not perform any operations";
+  EXPECT_EQ(set.length(), 0);
   EXPECT_EQ(set.capacity(), 0);
 
   set.trim(0);
@@ -59,6 +59,4 @@ TEST(TritSet, CopyAssignmentOperator) {
   TritSet setA(10);
   TritSet setB(10);
   TritSet setC(20);
-
-  setA
 }

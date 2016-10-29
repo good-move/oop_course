@@ -1,5 +1,5 @@
 project(src)
 
-set(SOURCE_LIB TritSet.cpp)
+list(APPEND SOURCE_LIBS TritSet.cpp)
 
-add_library(src STATIC ${SOURCE_LIB})
+add_library(src STATIC ${SOURCE_LIBS})

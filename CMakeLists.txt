@@ -3,8 +3,8 @@ project(15201_boltava)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall")
 
-set(SOURCE_FILES lab1/main.cpp)
-add_executable(lab1_run ${SOURCE_FILES})
+set(SOURCE_FILE lab1/main.cpp)
+add_executable(lab1_run ${SOURCE_FILE})
 
 include_directories(lab1/src)
 

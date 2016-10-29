@@ -1149,7 +1149,7 @@ where `T` is the type of your parameter values.  For convenience, you
 can just derive the fixture class from `::testing::TestWithParam<T>`,
 which itself is derived from both `::testing::Test` and
 `::testing::WithParamInterface<T>`. `T` can be any copyable type. If
-it's a raw pointer, you are responsible for managing the lifespan of
+it's a raw pointer_, you are responsible for managing the lifespan of
 the pointed values.
 
 ```
@@ -1621,7 +1621,7 @@ printf("We are in test %s of test case %s.\n",
        test_info->name(), test_info->test_case_name());
 ```
 
-`current_test_info()` returns a null pointer if no test is running. In
+`current_test_info()` returns a null pointer_ if no test is running. In
 particular, you cannot find the test case name in `TestCaseSetUp()`,
 `TestCaseTearDown()` (where you know the test case name implicitly), or
 functions called from them.
