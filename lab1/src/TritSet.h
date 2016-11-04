@@ -1,12 +1,12 @@
 #pragma once
 
+#include "TritSetIterator.h"
+
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
 #include <new>
 #include <unordered_map>
-
-#include "TritSetIterator.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ namespace alexgm {
 
   enum Trit : uint { False=0, Unknown=2, True=3 }; // 00, 10, 11
 
-  Trit& operator!(Trit);
+  Trit operator!(Trit);
 
   class TritSet;
   class TritHash;
@@ -23,16 +23,14 @@ namespace alexgm {
   const uint BITS_PER_TRIT = 2u;
   const uint TRIT_STAMP = 3u;
 
-
-
   class TritSet {
 
     class TritHolder;
 
-    typedef TritSetIterator<const TritSet*, const TritHolder> const_iterator;
-    typedef TritSetIterator<TritSet*, TritHolder> iterator;
-
     public:
+
+      typedef TritSetIterator<const TritSet*, const TritHolder> const_iterator;
+      typedef TritSetIterator<TritSet*, TritHolder> iterator;
 
       iterator begin();
       iterator end();
@@ -40,6 +38,7 @@ namespace alexgm {
       const_iterator begin() const;
       const_iterator end() const;
 
+      TritSet();
       TritSet(const size_t);
       TritSet(const TritSet&);
       TritSet(TritSet&&);
@@ -48,13 +47,13 @@ namespace alexgm {
       TritHolder& operator[] (const size_t) const;
       TritSet& operator&= (const TritSet&);
       TritSet& operator|= (const TritSet&);
-      TritSet& operator= (TritSet);
-      TritSet operator& (const TritSet&);
-      TritSet operator| (const TritSet&);
-      bool operator== (const TritSet&);
-      bool operator!= (const TritSet&);
-      TritSet& operator~ ();
-      unordered_map< Trit, size_t, TritHash > cardinality();
+      TritSet& operator= (const TritSet&);
+      TritSet operator& (const TritSet&) const;
+      TritSet operator| (const TritSet&) const;
+      bool operator== (const TritSet&) const;
+      bool operator!= (const TritSet&) const;
+      TritSet operator~ ();
+      unordered_map< Trit, size_t, TritHash > cardinality() const;
       size_t cardinality(Trit) const;
       size_t capacity() const;
       void trim(const size_t);
@@ -62,36 +61,39 @@ namespace alexgm {
       void shrink();
 
     private:
-      bool equals(const TritSet&);
+      bool equals(const TritSet&) const;
 
       TritHolder* tritHolder_;
 
       class TritHolder {
       public:
-          TritHolder(const size_t);
-          TritHolder(const TritHolder&);
-          TritHolder(TritHolder&&);
-          ~TritHolder();
+        TritHolder(const size_t);
+        TritHolder(const TritHolder&);
+        TritHolder(TritHolder&&);
+        ~TritHolder();
 
-          void resize(const size_t);
-          Trit& operator= (uint);
-          bool operator== (Trit);
-          bool operator!= (Trit);
-          Trit operator! ();
-          operator Trit();
+        TritHolder& operator= (const Trit);
+        TritHolder& operator= (const TritHolder);
+        bool operator== (Trit) const;
+        bool operator!= (Trit) const;
+        Trit operator! ();
+        operator Trit() const;
 
       private:
-          size_t computeArrayLength(const size_t);
-          void initArray(uint[], const size_t);
-          void cleanAfter(const size_t);
-          uint getPlaceholder();
-          void findMaxSetInd();
-          bool equals(Trit);
-          Trit getTrit(size_t, size_t);
-          Trit getTrit();
-          void setTrit(uint);
+        size_t computeArrayLength(const size_t);
+        void initArray(uint[], const size_t);
+        void cleanAfter(const size_t);
+        void resize(const size_t);
+        uint getPlaceholder();
+        void findMaxSetInd();
+        void copyFrom(TritHolder);
+        bool equals(Trit) const;
+        Trit getTrit(size_t, size_t) const;
+        Trit getTrit() const;
+        void setTrit(uint);
+        TritHolder& copyAssignment(const Trit);
 
-          friend class TritSet;
+        friend class TritSet;
 
           uint* tritSet_;
           size_t lastAccessedInd_;

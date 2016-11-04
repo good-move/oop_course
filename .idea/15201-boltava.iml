@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/lab1/src/TritSet.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab1/src/TritSet.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab1/src/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lab1/src/TritSetIterator.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab1/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab1/tests/basic_tests/tritset_check.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab1/tests/basic_tests/CMakeLists.txt" isTestSource="false" />

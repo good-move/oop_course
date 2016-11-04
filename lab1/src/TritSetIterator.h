@@ -15,13 +15,13 @@ namespace alexgm {
     TritSetIterator(TritSetIterator&&);
     ~TritSetIterator();
 
-    TritSetIterator& operator=(TritSetIterator);
+    TritSetIterator& operator=(const TritSetIterator);
     TritSetIterator& operator++();
-    TritSetIterator& operator++(int);
+    TritSetIterator operator++(int);
     bool operator==(const TritSetIterator&) const;
     bool operator!=(const TritSetIterator&) const;
-    ValueType operator*() const;
-    ValueType operator->() const;
+    ValueType& operator*() const;
+    ValueType& operator->() const;
 
   private:
     bool equals(const TritSetIterator&) const;
@@ -55,7 +55,16 @@ namespace alexgm {
   {}
 
   template <class PointerClass, class ValueType>
-  ValueType TritSetIterator<PointerClass, ValueType>::
+  TritSetIterator<PointerClass, ValueType>& TritSetIterator<PointerClass, ValueType>::
+  operator=(const TritSetIterator<PointerClass, ValueType> otherIt)
+  {
+    TritSetIterator<PointerClass, ValueType> tmp(otherIt);
+    *this = std::move(tmp);
+    return *this;
+  }
+
+  template <class PointerClass, class ValueType>
+  ValueType& TritSetIterator<PointerClass, ValueType>::
   operator*() const
   {
 //    cout << "next value: " << (*pointer_)[index_] << endl;
@@ -63,7 +72,7 @@ namespace alexgm {
   }
 
   template <class PointerClass, class ValueType>
-  ValueType TritSetIterator<PointerClass, ValueType>::
+  ValueType& TritSetIterator<PointerClass, ValueType>::
   operator->() const
   {
     return (*pointer_)[index_];
@@ -79,7 +88,7 @@ namespace alexgm {
   }
 
   template <class PointerClass, class ValueType>
-  TritSetIterator<PointerClass, ValueType>& TritSetIterator<PointerClass, ValueType>::
+  TritSetIterator<PointerClass, ValueType> TritSetIterator<PointerClass, ValueType>::
   operator++(int)
   {
     TritSetIterator oldIt(*this);

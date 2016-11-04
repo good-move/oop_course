@@ -10,36 +10,23 @@
       <config projectName="15201_boltava" targetName="src" />
     </generated>
   </component>
-  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_PASS_SYSTEM_ENVIRONMENT="true">
+  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_PASS_SYSTEM_ENVIRONMENT="true" BUILD_OUTPUT_DIR="$PROJECT_DIR$">
     <ADDITIONAL_GENERATION_ENVIRONMENT>
       <envs />
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ecf13fb-59c4-4b6e-8fd2-ce2e691437b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lab1/src/TritSetIterator.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lab1/src/TritSetIterator.h" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lab1/src/TritSetIterator.cpp" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/15201-boltava.iml" afterPath="$PROJECT_DIR$/.idea/15201-boltava.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/main.cpp" afterPath="$PROJECT_DIR$/lab1/main.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/src/CMakeLists.txt" afterPath="$PROJECT_DIR$/lab1/src/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/src/TritSet.cpp" afterPath="$PROJECT_DIR$/lab1/src/TritSet.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/src/TritSet.h" afterPath="$PROJECT_DIR$/lab1/src/TritSet.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/src/TritSetIterator.h" afterPath="$PROJECT_DIR$/lab1/src/TritSetIterator.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp" afterPath="$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/AdvancedGuide.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/AdvancedGuide.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/FAQ.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/FAQ.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/Primer.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/Primer.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_AdvancedGuide.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_AdvancedGuide.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_FAQ.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_FAQ.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_Primer.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_5_Primer.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_AdvancedGuide.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_AdvancedGuide.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_FAQ.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_FAQ.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_Primer.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_6_Primer.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_AdvancedGuide.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_AdvancedGuide.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_FAQ.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_FAQ.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_Primer.md" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/docs/V1_7_Primer.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lab1/tests/lib/g-test/include/gtest/gtest-param-test.h.pump" afterPath="$PROJECT_DIR$/lab1/tests/lib/g-test/include/gtest/gtest-param-test.h.pump" />
     </list>
     <ignored path="15201-boltava.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,13 +46,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TritSet.h" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TritSet.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="71" column="40" selection-start-line="71" selection-start-column="40" selection-end-line="71" selection-end-column="40" />
+            <state relative-caret-position="299">
+              <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
               <folding>
-                <element signature="e#14#34#0" expanded="true" />
+                <element signature="e#14#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -74,32 +61,43 @@
       <file leaf-file-name="TritSet.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="289" column="42" selection-start-line="289" selection-start-column="42" selection-end-line="289" selection-end-column="42" />
+            <state relative-caret-position="1843">
+              <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TritSetIterator.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="notes.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lab1/notes.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="741">
+              <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TritSetIterator.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2033">
-              <caret line="107" column="40" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+            <state relative-caret-position="437">
+              <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
               <folding>
                 <element signature="e#14#34#0" expanded="true" />
                 <element signature="e#110#146#0" expanded="true" />
-                <element signature="e#748#785#0" expanded="true" />
-                <element signature="e#947#984#0" expanded="true" />
-                <element signature="e#1150#1187#0" expanded="true" />
-                <element signature="e#1363#1400#0" expanded="true" />
-                <element signature="e#1484#1521#0" expanded="true" />
-                <element signature="e#1710#1747#0" expanded="true" />
-                <element signature="e#1877#1914#0" expanded="true" />
-                <element signature="e#2069#2106#0" expanded="true" />
-                <element signature="e#2298#2335#0" expanded="true" />
-                <element signature="e#2516#2553#0" expanded="true" />
-                <element signature="e#2735#2772#0" expanded="true" />
+                <element signature="e#755#792#0" expanded="true" />
+                <element signature="e#954#991#0" expanded="true" />
+                <element signature="e#1157#1194#0" expanded="true" />
+                <element signature="e#1370#1407#0" expanded="true" />
+                <element signature="e#1491#1528#0" expanded="true" />
+                <element signature="e#1809#1846#0" expanded="true" />
+                <element signature="e#2036#2073#0" expanded="true" />
+                <element signature="e#2204#2241#0" expanded="true" />
+                <element signature="e#2396#2433#0" expanded="true" />
+                <element signature="e#2624#2661#0" expanded="true" />
+                <element signature="e#2842#2879#0" expanded="true" />
+                <element signature="e#3061#3098#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,8 +106,8 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lab1/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="666">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+            <state relative-caret-position="1216">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -117,12 +115,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="notes.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lab1/notes.txt">
+      <file leaf-file-name="tritset_check.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
-              <folding />
+            <state relative-caret-position="812">
+              <caret line="360" column="0" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,15 +148,16 @@
         <option value="$PROJECT_DIR$/lab1/tests/basic_tests/basic_check.cpp" />
         <option value="$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp.cpp" />
         <option value="$PROJECT_DIR$/lab1/tests/basic_tests/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp" />
-        <option value="$PROJECT_DIR$/lab1/notes.txt" />
         <option value="$PROJECT_DIR$/lab1/src/TritSetIterator.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/lab1/src/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/lab1/src/TritSetIterator.h" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/lab1/main.cpp" />
+        <option value="$PROJECT_DIR$/lab1/notes.txt" />
         <option value="$PROJECT_DIR$/lab1/src/TritSet.h" />
         <option value="$PROJECT_DIR$/lab1/src/TritSet.cpp" />
-        <option value="$PROJECT_DIR$/lab1/src/TritSetIterator.h" />
-        <option value="$PROJECT_DIR$/lab1/main.cpp" />
+        <option value="$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp" />
       </list>
     </option>
   </component>
@@ -168,7 +169,7 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="57" />
+    <option name="x" value="-1863" />
     <option name="y" value="24" />
     <option name="width" value="1863" />
     <option name="height" value="1056" />
@@ -260,6 +261,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="15201-boltava" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="15201-boltava" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lab1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="basic_tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="15201-boltava" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="15201-boltava" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lab1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -270,9 +311,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -284,7 +326,7 @@
       <recent name="$PROJECT_DIR$/lab1/lib" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.lab1_run">
+  <component name="RunManager" selected="Google Test.runBasicTests">
     <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="15201_boltava" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
@@ -446,11 +488,7 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="15201_boltava" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="15201_boltava" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="15201_boltava" RUN_TARGET_NAME="15201_boltava">
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="lab1_run" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="lab1_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="15201_boltava" RUN_TARGET_NAME="lab1_run">
+    <configuration default="false" name="lab1_run" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="lab1_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="15201_boltava" RUN_TARGET_NAME="lab1_run">
       <envs />
       <method />
     </configuration>
@@ -466,22 +504,21 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="runBasicTests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="runBasicTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="15201_boltava" RUN_TARGET_NAME="runBasicTests" TEST_MODE="SUITE_TEST">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="false" name="src" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="src" CONFIG_NAME="Debug">
       <envs />
       <method />
     </configuration>
-    <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="Application.15201_boltava" />
-      <item index="1" class="java.lang.String" itemvalue="Application.lab1_run" />
-      <item index="2" class="java.lang.String" itemvalue="Application.gtest" />
-      <item index="3" class="java.lang.String" itemvalue="Application.gtest_main" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Build All" />
+    <configuration default="false" name="runBasicTests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="15201_boltava" TARGET_NAME="runBasicTests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="15201_boltava" RUN_TARGET_NAME="runBasicTests" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Application.lab1_run" />
+      <item index="1" class="java.lang.String" itemvalue="Application.gtest" />
+      <item index="2" class="java.lang.String" itemvalue="Application.gtest_main" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Build All" />
+      <item index="4" class="java.lang.String" itemvalue="Application.src" />
       <item index="5" class="java.lang.String" itemvalue="Google Test.runBasicTests" />
-      <item index="6" class="java.lang.String" itemvalue="Application.src" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -498,67 +535,79 @@
       <workItem from="1477727463326" duration="10768000" />
       <workItem from="1477746825901" duration="11636000" />
       <workItem from="1477762397576" duration="19000" />
-      <workItem from="1477762437507" duration="3051000" />
+      <workItem from="1477762437507" duration="18143000" />
+      <workItem from="1477816156489" duration="20227000" />
+      <workItem from="1478262565381" duration="11234000" />
+      <workItem from="1478274538057" duration="837000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="runBasicTests - 2016.10.23 at 21h 40m 29s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 25m 01s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.23 at 21h 40m 47s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 25m 29s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.23 at 21h 41m 00s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 26m 24s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.23 at 21h 41m 10s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 29m 31s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.23 at 21h 45m 48s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 31m 41s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.29 at 14h 06m 39s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 37m 31s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.29 at 14h 08m 13s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 37m 59s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.29 at 14h 10m 06s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 44m 10s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.29 at 14h 11m 10s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 45m 04s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="runBasicTests - 2016.10.29 at 14h 11m 27s.xml">
+    <history-entry file="runBasicTests - 2016.11.04 at 21h 47m 20s.xml">
       <configuration name="runBasicTests" configurationId="CMakeGoogleTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86234000" />
+    <option name="totallyTimeSpent" value="133624000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="57" y="24" width="1863" height="1056" extended-state="6" />
+    <frame x="-1863" y="24" width="1863" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11701556" sideWeight="0.47376788" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35881755" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34964323" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1184139" sideWeight="0.47376788" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498642" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56367433" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11701556" sideWeight="0.5262321" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5280899" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3611691" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3559499" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32925585" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5271399" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -581,6 +630,24 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5280899" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
@@ -601,10 +668,189 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1843">
+          <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="741">
+          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#110#146#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#110#146#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1216">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="24" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1444">
+          <caret line="76" column="48" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
+          <folding>
+            <element signature="e#14#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6688">
+          <caret line="352" column="0" selection-start-line="352" selection-start-column="0" selection-end-line="352" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#110#146#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="589">
           <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
           <folding>
-            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#14#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -624,17 +870,18 @@
           <folding>
             <element signature="e#14#34#0" expanded="true" />
             <element signature="e#110#146#0" expanded="true" />
-            <element signature="e#748#785#0" expanded="true" />
-            <element signature="e#947#984#0" expanded="true" />
-            <element signature="e#1150#1187#0" expanded="true" />
-            <element signature="e#1363#1400#0" expanded="true" />
-            <element signature="e#1484#1521#0" expanded="true" />
-            <element signature="e#1710#1747#0" expanded="true" />
-            <element signature="e#1877#1914#0" expanded="true" />
-            <element signature="e#2069#2106#0" expanded="true" />
-            <element signature="e#2298#2335#0" expanded="true" />
-            <element signature="e#2516#2553#0" expanded="true" />
-            <element signature="e#2735#2772#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -662,7 +909,7 @@
         <state relative-caret-position="589">
           <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
           <folding>
-            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#14#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -682,17 +929,18 @@
           <folding>
             <element signature="e#14#34#0" expanded="true" />
             <element signature="e#110#146#0" expanded="true" />
-            <element signature="e#748#785#0" expanded="true" />
-            <element signature="e#947#984#0" expanded="true" />
-            <element signature="e#1150#1187#0" expanded="true" />
-            <element signature="e#1363#1400#0" expanded="true" />
-            <element signature="e#1484#1521#0" expanded="true" />
-            <element signature="e#1710#1747#0" expanded="true" />
-            <element signature="e#1877#1914#0" expanded="true" />
-            <element signature="e#2069#2106#0" expanded="true" />
-            <element signature="e#2298#2335#0" expanded="true" />
-            <element signature="e#2516#2553#0" expanded="true" />
-            <element signature="e#2735#2772#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -729,25 +977,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lab1/tests/lib/g-test/include/gtest/gtest.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="1391" column="0" selection-start-line="1391" selection-start-column="0" selection-end-line="1391" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/basic_check.cpp" />
     <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -758,88 +992,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp">
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.cpp" />
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="74" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+        <state relative-caret-position="152">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/src/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
+        <state relative-caret-position="95">
+          <caret line="5" column="47" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/lab1/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
-          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/tests/lib/g-test/include/gtest/gtest.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="1420" column="0" selection-start-line="1420" selection-start-column="0" selection-end-line="1420" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+        <state relative-caret-position="741">
+          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#110#146#0" expanded="true" />
+            <element signature="e#755#792#0" expanded="true" />
+            <element signature="e#954#991#0" expanded="true" />
+            <element signature="e#1157#1194#0" expanded="true" />
+            <element signature="e#1370#1407#0" expanded="true" />
+            <element signature="e#1491#1528#0" expanded="true" />
+            <element signature="e#1809#1846#0" expanded="true" />
+            <element signature="e#2036#2073#0" expanded="true" />
+            <element signature="e#2204#2241#0" expanded="true" />
+            <element signature="e#2396#2433#0" expanded="true" />
+            <element signature="e#2624#2661#0" expanded="true" />
+            <element signature="e#2842#2879#0" expanded="true" />
+            <element signature="e#3061#3098#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="289" column="42" selection-start-line="289" selection-start-column="42" selection-end-line="289" selection-end-column="42" />
+        <state relative-caret-position="1843">
+          <caret line="97" column="24" selection-start-line="97" selection-start-column="24" selection-end-line="97" selection-end-column="24" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="71" column="40" selection-start-line="71" selection-start-column="40" selection-end-line="71" selection-end-column="40" />
-          <folding>
-            <element signature="e#14#34#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lab1/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+        <state relative-caret-position="1216">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lab1/src/TritSetIterator.h">
+    <entry file="file://$PROJECT_DIR$/lab1/tests/basic_tests/tritset_check.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2033">
-          <caret line="107" column="40" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+        <state relative-caret-position="812">
+          <caret line="360" column="0" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
           <folding>
-            <element signature="e#14#34#0" expanded="true" />
-            <element signature="e#110#146#0" expanded="true" />
-            <element signature="e#748#785#0" expanded="true" />
-            <element signature="e#947#984#0" expanded="true" />
-            <element signature="e#1150#1187#0" expanded="true" />
-            <element signature="e#1363#1400#0" expanded="true" />
-            <element signature="e#1484#1521#0" expanded="true" />
-            <element signature="e#1710#1747#0" expanded="true" />
-            <element signature="e#1877#1914#0" expanded="true" />
-            <element signature="e#2069#2106#0" expanded="true" />
-            <element signature="e#2298#2335#0" expanded="true" />
-            <element signature="e#2516#2553#0" expanded="true" />
-            <element signature="e#2735#2772#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lab1/src/TritSet.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
+          <folding>
+            <element signature="e#14#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
