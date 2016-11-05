@@ -237,7 +237,6 @@ namespace alexgm {
 
   TritSet::const_iterator TritSet::
   end() const {
-//    cout << "initializing iterator end: " << this->length() << endl;
     return TritSet::const_iterator(this, this->length());
   }
 
@@ -473,4 +472,5 @@ namespace alexgm {
 
     return *this;
   }
+
 }

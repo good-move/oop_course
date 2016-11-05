@@ -282,24 +282,24 @@ TEST(TritSet, SizeAndCardinality) {
   A[3] = A[6] = A[7] = False;
   A[2] = A[4] = True;
 
-  ASSERT_EQ(A.length(), 8);
-  ASSERT_EQ(A.capacity(), 1);
+  ASSERT_EQ(A.length(), 8u);
+  ASSERT_EQ(A.capacity(), 1u);
 
   auto card = A.cardinality();
-  ASSERT_EQ(card[True], 2);
-  ASSERT_EQ(card[False], 3);
-  ASSERT_EQ(card[Unknown], 3);
+  ASSERT_EQ(card[True], 2u);
+  ASSERT_EQ(card[False], 3u);
+  ASSERT_EQ(card[Unknown], 3u);
 
   B[3] = B[4] = B[8] = True;
   B[1] = B[6] = False;
 
-  ASSERT_EQ(B.length(), 9);
-  ASSERT_EQ(B.capacity(), 1);
+  ASSERT_EQ(B.length(), 9u);
+  ASSERT_EQ(B.capacity(), 1u);
 
   card = B.cardinality();
-  ASSERT_EQ(card[True], 3);
-  ASSERT_EQ(card[False], 2);
-  ASSERT_EQ(card[Unknown], 4);
+  ASSERT_EQ(card[True], 3u);
+  ASSERT_EQ(card[False], 2u);
+  ASSERT_EQ(card[Unknown], 4u);
 
   for (size_t i = 0; i < A.length(); ++i) {
     C[i] = A[i];
@@ -308,55 +308,120 @@ TEST(TritSet, SizeAndCardinality) {
   C[13] = C[17] = True;
   C[11] = C[12] = C[19] = False;
 
-  ASSERT_EQ(C.length(), 20);
-  ASSERT_EQ(C.capacity(), 2);
+  ASSERT_EQ(C.length(), 20u);
+  ASSERT_EQ(C.capacity(), 2u);
 
   card = C.cardinality();
-  ASSERT_EQ(card[True], 4);
-  ASSERT_EQ(card[False], 6);
-  ASSERT_EQ(card[Unknown], 10);
+  ASSERT_EQ(card[True], 4u);
+  ASSERT_EQ(card[False], 6u);
+  ASSERT_EQ(card[Unknown], 10u);
 
   size_t cardinality = C.cardinality(True);
-  EXPECT_EQ(cardinality, 4);
+  EXPECT_EQ(cardinality, 4u);
   cardinality = C.cardinality(Unknown);
-  EXPECT_EQ(cardinality, 10);
+  EXPECT_EQ(cardinality, 10u);
   cardinality = C.cardinality(False);
-  EXPECT_EQ(cardinality, 6);
+  EXPECT_EQ(cardinality, 6u);
 
   TritSet D = A & ~C;
 
-  ASSERT_EQ(D.length(), 18);
-  ASSERT_EQ(D.capacity(), 2);
+  ASSERT_EQ(D.length(), 18u);
+  ASSERT_EQ(D.capacity(), 2u);
 
   card = D.cardinality();
-  ASSERT_EQ(card[True], 0);
-  ASSERT_EQ(card[False], 7);
-  ASSERT_EQ(card[Unknown], 11);
+  ASSERT_EQ(card[True], 0u);
+  ASSERT_EQ(card[False], 7u);
+  ASSERT_EQ(card[Unknown], 11u);
 
   C[17] = C[19] = Unknown;
   C.shrink();
-  EXPECT_EQ(C.length(), 14);
+  EXPECT_EQ(C.length(), 14u);
 
   C.trim(5);
-  EXPECT_EQ(C.length(), 5);
-  EXPECT_EQ(C.capacity(), 1);
+  EXPECT_EQ(C.length(), 5u);
+  EXPECT_EQ(C.capacity(), 1u);
 
   B.trim(6);
-  EXPECT_EQ(C.length(), 5);
-  EXPECT_EQ(C.capacity(), 1);
+  EXPECT_EQ(C.length(), 5u);
+  EXPECT_EQ(C.capacity(), 1u);
 
   SUCCESS_MSG;
 }
 
-TEST(TritHolder, LogicOperators) {
+TEST(TritSet, Iterator) {
+  START_MSG("Iterator");
+
+  TritSet B(10);
+  B[3] = B[4] = B[8] = True;
+  B[1] = B[6] = False;
+
+  int i = 0;
+  for (auto it = B.begin(); it != B.end(); ++it) {
+    if (i == 3 || i == 4 || i == 8) {
+      EXPECT_EQ(*it, True);
+    }
+    else if (i == 1 || i == 6) {
+      EXPECT_EQ(*it, False);
+    }
+    else {
+      EXPECT_EQ(*it, Unknown);
+    }
+    i++;
+  }
+
+  for (auto& it : B) {
+    it = True;
+  }
+  for (auto it : B) {
+    EXPECT_EQ(it, True);
+  }
+
+  for (auto& it : B) {
+    it = Unknown;
+  }
+
+  EXPECT_EQ(B.length(), 0u);
+}
+
+TEST(TritHolder, AssginmentAndLogicOperators) {
 
   START_MSG("Testing TritHolder");
-  START_MSG("LogicOperators");
+  START_MSG("AssginmentAndLogicOperators");
 
+  TritSet B(10);
+  B[3] = B[4] = B[8] = True;
+  B[1] = B[6] = False;
 
+  ASSERT_TRUE(B[3] == True);
+  ASSERT_TRUE(B[3] == B[4]);
+  ASSERT_TRUE(B[3] == B[8]);
+  ASSERT_TRUE(B[1] == False);
+  ASSERT_TRUE(B[1] == B[6]);
+  ASSERT_TRUE(B[1] != B[3]);
+  ASSERT_FALSE(B[1] != B[6]);
+  ASSERT_FALSE(B[4] != B[8]);
+
+  B[3] = !B[4];
+  ASSERT_TRUE(B[3] == False);
+  ASSERT_TRUE(B[3] == B[1]);
 
   SUCCESS_MSG;
 }
+
+TEST(TritSet, NegativeTest) {
+
+  START_MSG("NegativeTest");
+  TritSet B(10);
+  B[3] = B[4] = B[8] = True;
+  B[1] = B[6] = False;
+
+  auto it = B.end();
+  it++;
+  ASSERT_ANY_THROW(*it);
+
+  SUCCESS_MSG;
+}
+
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

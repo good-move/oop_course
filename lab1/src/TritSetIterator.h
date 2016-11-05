@@ -28,17 +28,18 @@ namespace alexgm {
 
     PointerType pointer_;
     size_t index_;
+    size_t length_;
 
   };
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
-  TritSetIterator(PointerClass pointer, size_t startIndex) : pointer_(pointer), index_(startIndex)
+  TritSetIterator(PointerClass pointer, size_t startIndex) : pointer_(pointer), index_(startIndex), length_(pointer->length())
   {}
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
-  TritSetIterator(const TritSetIterator& otherIt) : pointer_(otherIt.pointer_), index_(otherIt.index_)
+  TritSetIterator(const TritSetIterator& otherIt) : pointer_(otherIt.pointer_), index_(otherIt.index_), length_(otherIt.length_)
   {}
 
   template <class PointerClass, class ValueType>
@@ -47,6 +48,9 @@ namespace alexgm {
   {
     pointer_ = otherIt.pointer_;
     otherIt.pointer_ = nullptr;
+
+    index_ = otherIt.index_;
+    length_ = otherIt.length_;
   }
 
   template <class PointerClass, class ValueType>
@@ -58,8 +62,10 @@ namespace alexgm {
   TritSetIterator<PointerClass, ValueType>& TritSetIterator<PointerClass, ValueType>::
   operator=(const TritSetIterator<PointerClass, ValueType> otherIt)
   {
-    TritSetIterator<PointerClass, ValueType> tmp(otherIt);
-    *this = std::move(tmp);
+    this->pointer_ = otherIt.pointer_;
+    this->index_ = otherIt.index_;
+    this->length_ = otherIt.length_;
+
     return *this;
   }
 
@@ -67,7 +73,9 @@ namespace alexgm {
   ValueType& TritSetIterator<PointerClass, ValueType>::
   operator*() const
   {
-//    cout << "next value: " << (*pointer_)[index_] << endl;
+    if (index_ >= length_) {
+      throw std::out_of_range("Cannot access element beyond iterable length");
+    }
     return (*pointer_)[index_];
   }
 
@@ -75,6 +83,9 @@ namespace alexgm {
   ValueType& TritSetIterator<PointerClass, ValueType>::
   operator->() const
   {
+    if (index_ >= length_) {
+      throw std::out_of_range("Cannot access element beyond iterable length");
+    }
     return (*pointer_)[index_];
 
   }
@@ -92,6 +103,7 @@ namespace alexgm {
   operator++(int)
   {
     TritSetIterator oldIt(*this);
+
     index_++;
     return oldIt;
   }
@@ -114,7 +126,9 @@ namespace alexgm {
   bool TritSetIterator<PointerClass, ValueType>::
   equals(const TritSetIterator& otherIt) const
   {
-    return pointer_ == otherIt.pointer_ && index_ == otherIt.index_;
+    return pointer_ == otherIt.pointer_ &&
+           index_ == otherIt.index_ &&
+           length_ == otherIt.length_;
   }
 
 } // namespace alexgm

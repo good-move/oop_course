@@ -40,13 +40,13 @@ main.o:
 TritSet.o:
 	$(CC) $(CFLAGS) $(SRC_DIR)/TritSet.cpp
 
-buildTest: buildTest_ clean
+buildTest: tritset_test
 
-buildTest_: buildGTest TritSet.o
+tritset_test: libgtest.a TritSet.o
 	$(CC) $(LFLAGS) -isystem $(GTEST_DIR)/include -pthread $(MY_TEST_PATH)/tritset_check.cpp TritSet.o libgtest.a \
 	    -o $(BIN_DIR)/tritset_test
 
-buildGTest:
+libgtest.a:
 	$(CC) $(CFLAGS) -isystem $(GTEST_DIR)/include -I $(GTEST_DIR) -pthread -c $(GTEST_DIR)/src/gtest-all.cc
 	ar -rv libgtest.a gtest-all.o
 

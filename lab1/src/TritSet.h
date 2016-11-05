@@ -1,12 +1,12 @@
 #pragma once
 
+#include "TritSetIterator.h"
+
 #include <unordered_map>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
 #include <new>
-
-#include "TritSetIterator.h"
 
 using namespace std;
 
@@ -65,35 +65,35 @@ namespace alexgm {
 
       TritHolder* tritHolder_;
 
-      class TritHolder {
-      public:
-        TritHolder(const size_t);
-        TritHolder(const TritHolder&);
-        TritHolder(TritHolder&&);
-        ~TritHolder();
+        class TritHolder {
+        public:
+          TritHolder(const size_t);
+          TritHolder(const TritHolder&);
+          TritHolder(TritHolder&&);
+          ~TritHolder();
 
-        TritHolder& operator= (const Trit);
-        TritHolder& operator= (const TritHolder);
-        bool operator== (Trit) const;
-        bool operator!= (Trit) const;
-        Trit operator! ();
-        operator Trit() const;
+          TritHolder& operator= (const Trit);
+          TritHolder& operator= (const TritHolder);
+          bool operator== (Trit) const;
+          bool operator!= (Trit) const;
+          Trit operator! ();
+          operator Trit() const;
 
-      private:
-        size_t computeArrayLength(const size_t);
-        void initArray(uint[], const size_t);
-        void cleanAfter(const size_t);
-        void resize(const size_t);
-        uint getPlaceholder();
-        void findMaxSetInd();
-        void copyFrom(TritHolder);
-        bool equals(Trit) const;
-        Trit getTrit(size_t, size_t) const;
-        Trit getTrit() const;
-        void setTrit(uint);
-        TritHolder& copyAssignment(const Trit);
+        private:
+          size_t computeArrayLength(const size_t);
+          void initArray(uint[], const size_t);
+          void cleanAfter(const size_t);
+          void resize(const size_t);
+          uint getPlaceholder();
+          void findMaxSetInd();
+          void copyFrom(TritHolder);
+          bool equals(Trit) const;
+          Trit getTrit(size_t, size_t) const;
+          Trit getTrit() const;
+          void setTrit(uint);
+          TritHolder& copyAssignment(const Trit);
 
-        friend class TritSet;
+          friend class TritSet;
 
           uint* tritSet_;
           size_t lastAccessedInd_;
@@ -101,7 +101,7 @@ namespace alexgm {
           size_t tritSetLength_; // num of trits
           size_t arrayLength_; // uint's for tritSetLength_ trits
           size_t maxSetInd_;
-      };
+        };
 
   };
 
