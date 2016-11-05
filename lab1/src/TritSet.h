@@ -1,12 +1,12 @@
 #pragma once
 
-#include "TritSetIterator.h"
-
+#include <unordered_map>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
 #include <new>
-#include <unordered_map>
+
+#include "TritSetIterator.h"
 
 using namespace std;
 

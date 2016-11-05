@@ -1,4 +1,5 @@
 **/main
 *.o
-build
+/build
+/lib
 notes.txt

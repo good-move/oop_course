@@ -8,6 +8,7 @@ using namespace alexgm;
 #define TEST_MSG(msg) cout << (msg) << endl;
 #define SUCCESS_MSG cout << "SUCCESS" << endl; cout<<endl;
 
+
 TEST(TritSet, TestsFromAssignment) {
 
   START_MSG("TestsFromAssignment");
@@ -77,12 +78,6 @@ TEST(TritSet, ZeroLengthTritSet) {
 
   TEST_MSG("Trim empty set to size 0");
   emptySet.trim(0);
-  EXPECT_EQ(emptySet.length(), 0u);
-  EXPECT_EQ(emptySet.capacity(), 0u);
-
-
-  TEST_MSG("Trim empty set to size -5");
-  emptySet.trim(-5);
   EXPECT_EQ(emptySet.length(), 0u);
   EXPECT_EQ(emptySet.capacity(), 0u);
 
@@ -361,4 +356,9 @@ TEST(TritHolder, LogicOperators) {
 
 
   SUCCESS_MSG;
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
