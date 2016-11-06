@@ -15,6 +15,15 @@ namespace alexgm {
 
 /* **************************  TritSet functions ************************** */
 
+  ostream& operator<<(ostream& os, const TritSet& tritSet)
+  {
+    for (auto it : tritSet) {
+      os << it << " ";
+    }
+    os << std::endl;
+    return os;
+  }
+
   TritSet::
   TritSet() {
     tritHolder_ = new TritHolder(0);

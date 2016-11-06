@@ -60,6 +60,8 @@ namespace alexgm {
       size_t length() const;
       void shrink();
 
+      friend ostream& operator<<(ostream& os, const TritSet& tritSet);
+
     private:
       bool equals(const TritSet&) const;
 
