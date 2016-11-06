@@ -21,7 +21,7 @@ namespace alexgm {
     bool operator==(const TritSetIterator&) const;
     bool operator!=(const TritSetIterator&) const;
     ValueType& operator*() const;
-    ValueType& operator->() const;
+    ValueType* operator->() const;
 
   private:
     bool equals(const TritSetIterator&) const;
@@ -80,13 +80,13 @@ namespace alexgm {
   }
 
   template <class PointerClass, class ValueType>
-  ValueType& TritSetIterator<PointerClass, ValueType>::
+  ValueType* TritSetIterator<PointerClass, ValueType>::
   operator->() const
   {
     if (index_ >= length_) {
       throw std::out_of_range("Cannot access element beyond iterable length");
     }
-    return (*pointer_)[index_];
+    return &((*pointer_)[index_]);
 
   }
 
