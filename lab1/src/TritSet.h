@@ -26,11 +26,11 @@ namespace alexgm {
   class TritSet {
 
     class TritHolder;
+    class ConstTritHolder;
 
     public:
-
-      typedef TritSetIterator<const TritSet*, const TritHolder> const_iterator;
-      typedef TritSetIterator<TritSet*, TritHolder> iterator;
+      using const_iterator = TritSetIterator<const TritSet*, ConstTritHolder>;
+      using iterator = TritSetIterator<TritSet*, TritHolder>;
 
       iterator begin();
       iterator end();
@@ -44,7 +44,8 @@ namespace alexgm {
       TritSet(TritSet&&);
       ~TritSet();
 
-      TritHolder& operator[] (const size_t) const;
+      ConstTritHolder operator[] (const size_t) const;
+      TritHolder operator[] (const size_t);
       TritSet& operator&= (const TritSet&);
       TritSet& operator|= (const TritSet&);
       TritSet& operator= (const TritSet&);
@@ -63,47 +64,74 @@ namespace alexgm {
       friend ostream& operator<<(ostream& os, const TritSet& tritSet);
 
     private:
+      static uint getPlaceholder();
+      static inline uint conjunction(uint a, uint b) { return a & b; };
+      static inline uint disjunction(uint a, uint b) { return a | b; };
+
+      void copyStateFrom(const TritSet&);
+      size_t computeArrayLength(const size_t) const;
+      void initArray(uint[], const size_t);
+      void cleanAfter(const size_t);
+      void resize(const size_t);
+      void findMaxSetInd();
       bool equals(const TritSet&) const;
+      Trit getTrit(size_t, size_t) const;
+      Trit getTrit(size_t) const;
+      void setTrit(size_t, Trit);
+      size_t countUintIndex(size_t) const;
+      size_t countOffset(size_t) const;
+      size_t capacityToLength(size_t) const;
+      void logicOperation(const TritSet&, uint(*)(uint, uint));
 
-      TritHolder* tritHolder_;
+      uint* tritSet_;
+      size_t allocLength_;
+      size_t currentLength_; // num of trits
+      size_t arrayLength_; // uint's for currentLength_ trits
+      size_t maxSetInd_;
 
-        class TritHolder {
-        public:
-          TritHolder(const size_t);
-          TritHolder(const TritHolder&);
-          TritHolder(TritHolder&&);
-          ~TritHolder();
+      class TritHolder {
+      public:
+        TritHolder(TritSet&, const size_t);
+        TritHolder(const TritHolder&);
+        TritHolder(TritHolder&&);
 
-          TritHolder& operator= (const Trit);
-          TritHolder& operator= (const TritHolder);
-          bool operator== (Trit) const;
-          bool operator!= (Trit) const;
-          Trit operator! ();
-          operator Trit() const;
+        TritHolder& operator= (const TritHolder);
+        TritHolder& operator= (const Trit);
+        bool operator== (Trit) const;
+        bool operator!= (Trit) const;
+        Trit operator!() const;
+        operator Trit() const;
 
-        private:
-          size_t computeArrayLength(const size_t);
-          void initArray(uint[], const size_t);
-          void cleanAfter(const size_t);
-          void resize(const size_t);
-          uint getPlaceholder();
-          void findMaxSetInd();
-          void copyFrom(TritHolder);
-          bool equals(Trit) const;
-          Trit getTrit(size_t, size_t) const;
-          Trit getTrit() const;
-          void setTrit(uint);
-          TritHolder& copyAssignment(const Trit);
+        size_t getIndex() const;
+        void setIndex(size_t);
 
-          friend class TritSet;
+      private:
+        bool equals(Trit) const;
 
-          uint* tritSet_;
-          size_t lastAccessedInd_;
-          size_t allocTritSetLength_;
-          size_t tritSetLength_; // num of trits
-          size_t arrayLength_; // uint's for tritSetLength_ trits
-          size_t maxSetInd_;
-        };
+        TritSet& parent_;
+        size_t tritIndex_;
+      };
+
+      class ConstTritHolder {
+      public:
+        ConstTritHolder(const TritSet&, const size_t);
+        ConstTritHolder(const ConstTritHolder&);
+        ConstTritHolder(ConstTritHolder&&);
+
+        bool operator== (Trit) const;
+        bool operator!= (Trit) const;
+        Trit operator!() const;
+        operator Trit() const;
+
+        size_t getIndex() const;
+        void setIndex(size_t);
+
+      private:
+        bool equals(Trit) const;
+
+        const TritSet& parent_;
+        size_t tritIndex_;
+      };
 
   };
 

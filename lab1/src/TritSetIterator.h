@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <stdexcept>
 #include <cstdlib>
 
@@ -15,7 +16,7 @@ namespace alexgm {
     TritSetIterator(TritSetIterator&&);
     ~TritSetIterator();
 
-    TritSetIterator& operator=(const TritSetIterator);
+    TritSetIterator& operator=(const TritSetIterator&);
     TritSetIterator& operator++();
     TritSetIterator operator++(int);
     bool operator==(const TritSetIterator&) const;
@@ -26,45 +27,57 @@ namespace alexgm {
   private:
     bool equals(const TritSetIterator&) const;
 
-    PointerType pointer_;
-    size_t index_;
-    size_t length_;
-
+    PointerType iterablePtr_;
+    ValueType* valuePtr_;
   };
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
-  TritSetIterator(PointerClass pointer, size_t startIndex) : pointer_(pointer), index_(startIndex), length_(pointer->length())
-  {}
+  TritSetIterator(PointerClass pointer, size_t startIndex)
+  {
+    if (pointer == nullptr) {
+      throw std::invalid_argument("Cannot initialize iterator from nullptr");
+    }
+    iterablePtr_ = pointer;
+    valuePtr_ = new ValueType(*iterablePtr_, startIndex);
+  }
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
-  TritSetIterator(const TritSetIterator& otherIt) : pointer_(otherIt.pointer_), index_(otherIt.index_), length_(otherIt.length_)
-  {}
+  TritSetIterator(const TritSetIterator& otherIt)
+  {
+    iterablePtr_ = otherIt.iterablePtr_;
+    valuePtr_ = new ValueType(*otherIt.valuePtr_);
+  }
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
   TritSetIterator(TritSetIterator&& otherIt)
   {
-    pointer_ = otherIt.pointer_;
-    otherIt.pointer_ = nullptr;
-
-    index_ = otherIt.index_;
-    length_ = otherIt.length_;
+    iterablePtr_ = otherIt.iterablePtr_;
+    valuePtr_ = otherIt.valuePtr_;
+    otherIt.iterablePtr_ = nullptr;
+    otherIt.valuePtr_ = nullptr;
   }
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>::
   ~TritSetIterator()
-  {}
+  {
+    delete valuePtr_;
+  }
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>& TritSetIterator<PointerClass, ValueType>::
-  operator=(const TritSetIterator<PointerClass, ValueType> otherIt)
+  operator=(const TritSetIterator<PointerClass, ValueType>& otherIt)
   {
-    this->pointer_ = otherIt.pointer_;
-    this->index_ = otherIt.index_;
-    this->length_ = otherIt.length_;
+    if (this != &otherIt) {
+      iterablePtr_ = otherIt.iterablePtr_;
+      ValueType* tmpPtr = new ValueType(*otherIt.valuePtr_);
+
+      delete valuePtr_;
+      valuePtr_ = tmpPtr;
+    }
 
     return *this;
   }
@@ -73,28 +86,30 @@ namespace alexgm {
   ValueType& TritSetIterator<PointerClass, ValueType>::
   operator*() const
   {
-    if (index_ >= length_) {
+    if (valuePtr_->getIndex() >= iterablePtr_->length()) {
       throw std::out_of_range("Cannot access element beyond iterable length");
     }
-    return (*pointer_)[index_];
+
+    return *valuePtr_;
   }
 
   template <class PointerClass, class ValueType>
   ValueType* TritSetIterator<PointerClass, ValueType>::
   operator->() const
   {
-    if (index_ >= length_) {
+    if (valuePtr_->getIndex() >= iterablePtr_->length()) {
       throw std::out_of_range("Cannot access element beyond iterable length");
     }
-    return &((*pointer_)[index_]);
 
+    return valuePtr_;
   }
 
   template <class PointerClass, class ValueType>
   TritSetIterator<PointerClass, ValueType>& TritSetIterator<PointerClass, ValueType>::
   operator++()
   {
-    index_++;
+    valuePtr_->setIndex(valuePtr_->getIndex() + 1);
+
     return *this;
   }
 
@@ -103,8 +118,8 @@ namespace alexgm {
   operator++(int)
   {
     TritSetIterator oldIt(*this);
+    valuePtr_->setIndex(valuePtr_->getIndex() + 1);
 
-    index_++;
     return oldIt;
   }
 
@@ -126,9 +141,9 @@ namespace alexgm {
   bool TritSetIterator<PointerClass, ValueType>::
   equals(const TritSetIterator& otherIt) const
   {
-    return pointer_ == otherIt.pointer_ &&
-           index_ == otherIt.index_ &&
-           length_ == otherIt.length_;
+    return iterablePtr_ == otherIt.iterablePtr_ &&
+           valuePtr_->getIndex() == otherIt.valuePtr_->getIndex() &&
+           iterablePtr_->length() == otherIt.iterablePtr_->length();
   }
 
 } // namespace alexgm

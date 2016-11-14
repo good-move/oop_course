@@ -1,5 +1,8 @@
 #include "../../src/TritSet.h"
-#include <gtest/gtest.h>
+#include "../lib/g-test/include/gtest/gtest.h"
+#include "../lib/g-test/include/gtest/internal/gtest-internal.h"
+#include "../lib/g-test/include/gtest/internal/gtest-port.h"
+//#include <gtest/gtest.h>
 
 using namespace std;
 using namespace alexgm;
@@ -317,7 +320,9 @@ TEST(TritSet, SizeAndCardinality) {
   ASSERT_EQ(card[Unknown], 10u);
 
   size_t cardinality = C.cardinality(True);
+
   EXPECT_EQ(cardinality, 4u);
+
   cardinality = C.cardinality(Unknown);
   EXPECT_EQ(cardinality, 10u);
   cardinality = C.cardinality(False);
@@ -345,7 +350,6 @@ TEST(TritSet, SizeAndCardinality) {
   EXPECT_EQ(C.length(), 5u);
   EXPECT_EQ(C.capacity(), 1u);
 
-  SUCCESS_MSG;
 }
 
 TEST(TritSet, Iterator) {
@@ -372,6 +376,7 @@ TEST(TritSet, Iterator) {
   for (auto& it : B) {
     it = True;
   }
+
   for (auto it : B) {
     EXPECT_EQ(it, True);
   }

@@ -14,7 +14,7 @@ BIN_DIR=build
 
 # Shell commands
 
-MK_DIR=mkdir -p
+BASH_MK_DIR=mkdir -p
 
 # Sources
 
@@ -26,12 +26,13 @@ STATIC_LIB_NAME=libtritset.a
 MAIN_OUTPUT_NAME=lab1
 
 
+#all: main
 all: buildStaticLib main buildTest
 
 release: all clean
 
 main: main.o TritSet.o
-	$(MK_DIR) $(BIN_DIR)
+	$(BASH_MK_DIR) $(BIN_DIR)
 	$(CC) main.o TritSet.o -o $(BIN_DIR)/$(MAIN_OUTPUT_NAME)
 
 main.o:
@@ -51,7 +52,7 @@ libgtest.a:
 	ar -rv libgtest.a gtest-all.o
 
 buildStaticLib: $(STATIC_LIB_OBJECTS)
-	$(MK_DIR) $(LIB_DIR)
+	$(BASH_MK_DIR) $(LIB_DIR)
 	ar -rvs $(LIB_DIR)/$(STATIC_LIB_NAME) $(STATIC_LIB_OBJECTS)
 
 clean:
