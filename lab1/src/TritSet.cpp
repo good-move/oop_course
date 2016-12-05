@@ -69,8 +69,7 @@ namespace alexgm {
   TritSet::
   ~TritSet()
   {
-    if (tritSet_ != nullptr)
-      delete[] tritSet_;
+    delete[] tritSet_;
     tritSet_ = nullptr;
   }
 
@@ -492,7 +491,7 @@ namespace alexgm {
   operator!() const
   {
     return tritIndex_ > parent_.maxSetInd_?
-           Unknown : (Trit)!parent_.getTrit(tritIndex_);
+           Unknown : static_cast<Trit>(!parent_.getTrit(tritIndex_));
   }
 
   size_t TritSet::TritHolder::

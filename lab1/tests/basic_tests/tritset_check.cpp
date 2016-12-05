@@ -1,8 +1,8 @@
 #include "../../src/TritSet.h"
-#include "../lib/g-test/include/gtest/gtest.h"
-#include "../lib/g-test/include/gtest/internal/gtest-internal.h"
-#include "../lib/g-test/include/gtest/internal/gtest-port.h"
-//#include <gtest/gtest.h>
+//#include "../lib/g-test/include/gtest/gtest.h"
+//#include "../lib/g-test/include/gtest/internal/gtest-internal.h"
+//#include "../lib/g-test/include/gtest/internal/gtest-port.h"
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace alexgm;

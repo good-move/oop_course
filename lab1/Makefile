@@ -26,10 +26,7 @@ STATIC_LIB_NAME=libtritset.a
 MAIN_OUTPUT_NAME=lab1
 
 
-#all: main
-all: buildStaticLib main buildTest
-
-release: all clean
+all: main buildTest clean
 
 main: main.o TritSet.o
 	$(BASH_MK_DIR) $(BIN_DIR)
@@ -44,16 +41,12 @@ TritSet.o:
 buildTest: tritset_test
 
 tritset_test: libgtest.a TritSet.o
-	$(CC) $(LFLAGS) -isystem $(GTEST_DIR)/include -pthread $(MY_TEST_PATH)/tritset_check.cpp TritSet.o libgtest.a \
+	$(CC) $(LFLAGS) -I $(GTEST_DIR)/include -isystem $(GTEST_DIR)/include -pthread $(MY_TEST_PATH)/tritset_check.cpp TritSet.o libgtest.a \
 	    -o $(BIN_DIR)/tritset_test
 
 libgtest.a:
 	$(CC) $(CFLAGS) -isystem $(GTEST_DIR)/include -I $(GTEST_DIR) -pthread -c $(GTEST_DIR)/src/gtest-all.cc
 	ar -rv libgtest.a gtest-all.o
-
-buildStaticLib: $(STATIC_LIB_OBJECTS)
-	$(BASH_MK_DIR) $(LIB_DIR)
-	ar -rvs $(LIB_DIR)/$(STATIC_LIB_NAME) $(STATIC_LIB_OBJECTS)
 
 clean:
 	rm -rf *.o ./*.a
