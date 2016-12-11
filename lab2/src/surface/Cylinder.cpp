@@ -4,7 +4,7 @@ namespace explorer {
 
   size_t
   Cylinder::
-  distance(Point p1, Point p2) const
+  distance(const Point& p1, const Point& p2) const
   {
     size_t distY = p1.y > p2.y ? p1.y - p2.y : p2.y - p1.y;
     size_t distX = p1.x > p2.x ? p1.x - p2.x : p2.x - p1.x;

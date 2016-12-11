@@ -2,13 +2,19 @@
 
 #include "../surface/Surface.h"
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 namespace explorer {
 
-  template<typename PointType, typename MeasureType>
+  template <typename PointType, typename MeasureType>
   class SurfaceSerializer {
     public:
-      virtual void readSurface(std::istream&, Surface<PointType, MeasureType>) = 0;
-      virtual void writeSurface(std::ostream&, Surface<PointType, MeasureType>) = 0;
+      virtual std::istream& readSurface(istream&, Surface<PointType, MeasureType>&, bool lookForArgs = true) = 0;
+      virtual std::ostream& writeSurface(ostream&, const Surface<PointType, MeasureType>&) = 0;
+      virtual std::ostream& writePath(ostream&, const vector<PointType>&) = 0;
   };
 
-} // end explorer namespace
+}

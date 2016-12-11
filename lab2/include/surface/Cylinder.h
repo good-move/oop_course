@@ -8,7 +8,7 @@ namespace explorer {
 
   class Cylinder : public SimpleSurface {
     public:
-      size_t distance(Point, Point) const override;
+      size_t distance(const Point&, const Point&) const override;
       vector<Point> lookup(Point) const override;
   };
 

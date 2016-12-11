@@ -1,5 +1,5 @@
-#include "SurfaceSerializer.h"
 #include "../surface/SimpleSurface.h"
+#include "./SurfaceSerializer.h"
 
 namespace explorer {
 
@@ -8,11 +8,11 @@ namespace explorer {
       SimpleSurfaceSerializer();
       SimpleSurfaceSerializer(char trailSign, char obstacleSign, char pathSign);
 
-      std::istream& readSurface(istream&, SimpleSurface&);
+      std::istream& readSurface(istream&, SimpleSurface&, bool lookForArgs = true) const;
       std::ostream& writeSurface(ostream&, const SimpleSurface&) const;
       std::ostream& writePath(ostream&, const SimpleSurface&, const vector<Point>&) const;
     private:
-      void addPoint(vector<vector<unsigned char>>&, Point, unsigned char);
+      void addPoint(vector<vector<unsigned char>>&, Point, unsigned char) const;
       bool isSurfaceValid(vector<vector<unsigned char>>&) const;
       void writeToStream(ostream&, const vector<vector<unsigned char>>&) const;
 

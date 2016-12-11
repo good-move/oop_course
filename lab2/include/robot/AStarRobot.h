@@ -17,6 +17,7 @@ namespace explorer {
 
     private:
       vector<P> search(P, P) override;
+      void clearData();
       vector<P> restorePath(P, P);
       vector<P>& reversePath(vector<P>&);
       virtual size_t heuristic(P) const;
@@ -42,14 +43,14 @@ namespace explorer {
   AStarRobot<P, M, H>::
   findPath(P start, P finish)
   {
+    this->clearData();
     finish_ = finish;
-
 
     std::vector<P> path = this->search(start, finish);
 
     if (path.size() > 0) {
       if (!surface_.checkPath(path, start, finish)) {
-        path.clear();
+//        path.clear();
         cout << "The path found is invalid" << endl;
       }
     } else {
@@ -64,7 +65,10 @@ namespace explorer {
   AStarRobot<P, M, H>::
   search(P start, P finish)
   {
-    openSet_.emplace(start);
+    if (surface_.isWalkable(start)) {
+      openSet_.emplace(start);
+      gScore_[start] = fScore_[start] = 0;
+    }
 
     while(!openSet_.empty()) {
       P current = this->getMin();
@@ -77,13 +81,13 @@ namespace explorer {
 
       for (auto& point : surface_.lookup(current)) {
 
-        if (!surface_.isWalkable(point)) {
+        if (!surface_.isWalkable(point) || closedSet_.count(point) != 0) {
           continue;
         }
 
         size_t tempScore = gScore_[current] + surface_.distance(current, point);
 
-        if (closedSet_.count(point) == 0 || tempScore < gScore_[point]) {
+        if (openSet_.count(point) == 0 || tempScore < gScore_[point]) {
           parents_[point] = current;
           gScore_[point] = tempScore;
           fScore_[point] = gScore_[point] + this->heuristic(point);
@@ -152,6 +156,18 @@ namespace explorer {
     openSet_.erase(minPoint);
 
     return minPoint;
+  }
+
+  template<typename P, typename M, typename H>
+  void
+  AStarRobot<P, M, H>::
+  clearData()
+  {
+    openSet_.clear();
+    closedSet_.clear();
+    gScore_.clear();
+    fScore_.clear();
+    parents_.clear();
   }
 
   template<typename P, typename M, typename H>

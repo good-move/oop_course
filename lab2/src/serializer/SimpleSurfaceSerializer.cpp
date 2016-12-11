@@ -14,7 +14,7 @@ namespace explorer {
 
   std::istream&
   SimpleSurfaceSerializer::
-  readSurface(std::istream& is, SimpleSurface& surface)
+  readSurface(std::istream& is, SimpleSurface& surface, bool lookForArgs) const
   {
     if (surface.isBuilt()) {
       return is;
@@ -22,15 +22,36 @@ namespace explorer {
 
     vector<vector<unsigned char>> surfaceRepr;
 
+    bool startFound = false;
+    bool finishFound = false;
     string line;
     size_t x = 0, y = 0;
+
     while (getline(is, line)) {
       for (auto &c : line) {
         if (c == obstacleSign_) {
           this->addPoint(surfaceRepr, Point(x, y), Obstacle);
-        } else if (c == trailSign_) {
+        }
+        else if (c == trailSign_) {
             this->addPoint(surfaceRepr, Point(x, y), Trail);
-        } else {
+        }
+        else if (c == 'S' && lookForArgs) {
+          if (startFound) {
+            throw logic_error("There must be only one start point");
+          }
+          startFound = true;
+          surface.start = Point(x,y);
+          this->addPoint(surfaceRepr, Point(x, y), Trail);
+        }
+        else if (c == 'F' && lookForArgs) {
+          if (finishFound) {
+            throw logic_error("There must be only one finish point");
+          }
+          finishFound = true;
+          surface.finish = Point(x,y);
+          this->addPoint(surfaceRepr, Point(x, y), Trail);
+        }
+        else {
           throw std::invalid_argument(string{"Error. Unknown point type: "} + c);
         }
         x += 1;
@@ -79,7 +100,7 @@ namespace explorer {
 
   void
   SimpleSurfaceSerializer::
-  addPoint(vector<vector<unsigned char>>& surface, Point point, unsigned char type)
+  addPoint(vector<vector<unsigned char>>& surface, Point point, unsigned char type) const
   {
     if (surface.size() <= point.y) {
       surface.push_back(std::vector<unsigned char>{});

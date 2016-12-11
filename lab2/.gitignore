@@ -2,4 +2,4 @@ bin/
 build/
 cmake-build-debug/
 lib/
-test/
+test/gtest

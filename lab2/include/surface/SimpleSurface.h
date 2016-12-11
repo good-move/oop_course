@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 #include <string>
-#include <cmath>
+//#include <cmath>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ namespace explorer {
     public:
       point_s();
       point_s(size_t, size_t);
-      bool operator==(point_s point) const;
+      bool operator==(point_s) const;
       bool operator!=(point_s) const;
       string toString() const;
 
@@ -29,15 +29,16 @@ namespace explorer {
 
   class PointHash {
     public:
-      size_t operator()(const Point& arg) const;
+      size_t operator()(const Point&) const;
   };
 
   class SimpleSurface : public Surface<Point, size_t> {
     public:
       SimpleSurface();
-      virtual size_t distance(Point, Point) const = 0;
+      virtual size_t distance(const Point&, const Point&) const = 0;
       virtual vector<Point> lookup(Point) const = 0;
       virtual bool isWalkable(Point) const override;
+
       bool checkPath(vector<Point>, Point, Point) const override;
       size_t getWidth() const;
       size_t getHeight() const;
@@ -46,12 +47,12 @@ namespace explorer {
       vector<vector<unsigned char>> getSurface() const;
 
     protected:
-      vector<vector<unsigned char>> surface_;
-      bool isBuilt_;
-
       bool isPointWithinBounds(Point) const;
       bool isPointValid(Point) const;
       bool isObstacle(bool) const;
+
+      vector<vector<unsigned char>> surface_;
+      bool isBuilt_;
   };
 
 }

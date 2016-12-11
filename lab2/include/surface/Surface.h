@@ -10,10 +10,11 @@ namespace explorer {
   class Surface {
     public:
       virtual bool checkPath(std::vector<PointType>, PointType, PointType) const = 0;
-      virtual MeasureType distance(PointType, PointType) const = 0;
+      virtual MeasureType distance(const PointType&, const PointType&) const = 0;
       virtual std::vector<PointType> lookup(PointType) const = 0;
       virtual bool isWalkable(PointType) const = 0;
 
+      PointType start, finish;
   };
 
 }

@@ -18,13 +18,14 @@ namespace explorer {
   {
     if (!isPointValid(start) || !isPointValid(finish)) {
       cout << "Start or finish point is invalid" << endl;
+      cout << start.toString() << " " << finish.toString() << endl;
       return false;
     }
     if (path.size() == 0) {
       cout << "No path provided" << endl;
       return false;
     }
-    if (path[0] != start || path[path.size() - 1] != finish) {
+    if (path.front() != start || path.back() != finish) {
       cout << "Error: start(finish) argument doesn't match path start(finish)" << endl;
       return false;
     }
@@ -50,6 +51,27 @@ namespace explorer {
   isWalkable(Point point) const
   {
     return this->isPointValid(point);
+  }
+
+  bool
+  SimpleSurface::
+  setSurface(const vector<vector<unsigned char>>& surface)
+  {
+    if (isBuilt_) {
+      return false;
+    }
+
+    surface_ = surface;
+    isBuilt_ = true;
+
+    return true;
+  }
+
+  vector<vector<unsigned char>>
+  SimpleSurface::
+  getSurface() const
+  {
+    return surface_;
   }
 
 /* ********************** private methods SimpleSurface ********************** */
@@ -94,27 +116,6 @@ namespace explorer {
   isBuilt()
   {
     return isBuilt_;
-  }
-
-  bool
-  SimpleSurface::
-  setSurface(const vector<vector<unsigned char>>& surface)
-  {
-    if (isBuilt_) {
-      return false;
-    }
-
-    surface_ = surface;
-    isBuilt_ = true;
-
-    return true;
-  }
-
-  vector<vector<unsigned char>>
-  SimpleSurface::
-  getSurface() const
-  {
-    return surface_;
   }
 
 /* ************************** struct point_s ************************** */
