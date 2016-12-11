@@ -11,7 +11,8 @@ namespace explorer {
     public:
       Parser();
       ~Parser();
-      void processCommandArgs(int, char*[]);
+
+      bool processCommandArgs(int, char*[]);
       string getTopology() const;
       size_t getLengthLimit() const;
       string getIFile() const;

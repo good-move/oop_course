@@ -3,3 +3,4 @@ build/
 cmake-build-debug/
 lib/
 test/gtest
+test/test

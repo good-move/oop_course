@@ -20,7 +20,10 @@ int main(int argc, char* argv[])
 {
   try {
     Parser parser;
-    parser.processCommandArgs(argc, argv);
+    if (!parser.processCommandArgs(argc, argv)) {
+      return 0;
+    }
+
     string topology = parser.getTopology();
 
     ifstream input (parser.getIFile());

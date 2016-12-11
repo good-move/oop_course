@@ -35,23 +35,28 @@ namespace explorer {
     opt_->setCommandFlag("help", 'h');
     opt_->setCommandOption("in", 'i');
     opt_->setCommandOption("out", 'o');
-    opt_->setCommandOption("getTopology", 't');
+    opt_->setCommandOption("topology", 't');
     opt_->setCommandOption("limit", 'l');
   }
 
-  void Parser::
+  bool Parser::
   processCommandArgs(int argc, char* argv[])
   {
     opt_->processCommandArgs(argc, argv);
 
     if (!opt_->hasOptions()) {
+      cout << "Provide at least one argument" << endl;
       opt_->printUsage();
-      return;
+      return false;
     }
 
     if (opt_->getFlag('h') || opt_->getFlag("help")) {
       opt_->printUsage();
+      return false;
     }
+
+    return true;
+
   }
 
   string
