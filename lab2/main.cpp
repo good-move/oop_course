@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
       return 0;
     }
 
-    string topology = parser.getTopology();
+    const string& topology = parser.getTopology();
 
     ifstream input (parser.getIFile());
     ofstream output (parser.getOFile());
@@ -33,24 +33,25 @@ int main(int argc, char* argv[])
       DictionarySerializer serializer;
       Dictionary surface;
       serializer.readSurface(input, surface);
-      auto path = runRobot<string, size_t, std::hash<string>>(surface, parser.getLengthLimit());
+      const auto& path = runRobot<string, size_t, std::hash<string>>(surface, parser.getLengthLimit());
       serializer.writePath(output, path);
     } else {
       SimpleSurfaceSerializer serializer('_', '@', '.');
+
       if (topology == "plane") {
         Plane surface;
         serializer.readSurface(input, surface);
-        auto path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
+        const auto& path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
         serializer.writePath(output, surface, path);
       } else if (topology == "cylinder") {
         Cylinder surface;
         serializer.readSurface(input, surface);
-        auto path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
+        const auto& path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
         serializer.writePath(output, surface, path);
       } else if (topology == "torus") {
         Torus surface;
         serializer.readSurface(input, surface);
-        auto path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
+        const auto& path = runRobot<Point, size_t, PointHash>(surface, parser.getLengthLimit());
         serializer.writePath(output, surface, path);
       } else {
         throw invalid_argument("Cannot initialize surface of unknown topology");

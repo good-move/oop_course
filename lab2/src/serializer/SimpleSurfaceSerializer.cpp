@@ -17,7 +17,7 @@ namespace explorer {
   readSurface(std::istream& is, SimpleSurface& surface, bool lookForArgs) const
   {
     if (surface.isBuilt()) {
-      return is;
+      throw logic_error("Cannot initialize a surface twice.");
     }
 
     vector<vector<unsigned char>> surfaceRepr;

@@ -3,148 +3,112 @@
 #include "../surface/Surface.h"
 #include "Robot.h"
 
-#include <bits/unordered_set.h>
-
-using namespace std;
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
 
 namespace explorer {
 
-  template<typename P, typename M, typename H>
-  class AStarRobot : public Robot<P, M> {
+  using std::unordered_map;
+  using std::unordered_set;
+  using std::vector;
+
+  template<typename PointType, typename MeasureType, typename Hash>
+  class AStarRobot : public Robot<PointType, MeasureType> {
     public:
-      AStarRobot<P, M, H>(const Surface<P, M>&);
-      vector<P> findPath(P, P) override;
+      using surface_type = typename Robot<PointType, MeasureType>::surface_type;
+      using point_vector = typename Robot<PointType, MeasureType>::point_vector;
+
+      using Robot<PointType, MeasureType>::surface_;
+
+      AStarRobot<PointType, MeasureType, Hash>(const surface_type& surface) :
+              Robot<PointType, MeasureType>(surface) {};
 
     private:
-      vector<P> search(P, P) override;
+      point_vector search(const PointType&, const PointType&) final override;
+      point_vector restorePath(const PointType&, const PointType&);
+      point_vector& reversePath(point_vector&);
+      PointType popNextCell();
       void clearData();
-      vector<P> restorePath(P, P);
-      vector<P>& reversePath(vector<P>&);
-      virtual size_t heuristic(P) const;
-      P getMin();
 
-      const Surface<P, M>& surface_;
-      unordered_set<P, H> openSet_;
-      unordered_set<P, H> closedSet_;
-      unordered_map<P, size_t, H> gScore_;
-      unordered_map<P, size_t, H> fScore_;
-      unordered_map<P, P, H> parents_;
-      P finish_;
+      unordered_set<PointType, Hash> openSet_;
+      unordered_set<PointType, Hash> closedSet_;
+      unordered_map<PointType, size_t, Hash> gScore_;
+      unordered_map<PointType, size_t, Hash> fScore_;
+      unordered_map<PointType, PointType, Hash> parents_;
   };
 
-  template<typename P, typename M, typename H>
-  AStarRobot<P, M, H>::
-  AStarRobot(const Surface<P, M> &surface) :
-          surface_(surface)
-  {}
 
-  template<typename P, typename M, typename H>
-  std::vector<P>
-  AStarRobot<P, M, H>::
-  findPath(P start, P finish)
+  template<typename PointType, typename MeasureType, typename Hash>
+  typename AStarRobot<PointType, MeasureType, Hash>::point_vector
+  AStarRobot<PointType, MeasureType, Hash>::
+  search(const PointType& start, const PointType& finish)
   {
     this->clearData();
-    finish_ = finish;
 
-    std::vector<P> path = this->search(start, finish);
-
-    if (path.size() > 0) {
-      if (!surface_.checkPath(path, start, finish)) {
-//        path.clear();
-        cout << "The path found is invalid" << endl;
-      }
-    } else {
-      cout << "No path found" << endl;
-    }
-
-    return path;
-  }
-
-  template<typename P, typename M, typename H>
-  std::vector<P>
-  AStarRobot<P, M, H>::
-  search(P start, P finish)
-  {
     if (surface_.isWalkable(start)) {
-      openSet_.emplace(start);
+      openSet_.insert(start);
       gScore_[start] = fScore_[start] = 0;
     }
 
     while(!openSet_.empty()) {
-      P current = this->getMin();
-
-      if (current == finish) {
-        return this->restorePath(start, finish);
-      }
-
-      closedSet_.emplace(current);
+      PointType current = this->popNextCell();
+      if (current == finish) return this->restorePath(start, finish);
+      closedSet_.insert(current);
 
       for (auto& point : surface_.lookup(current)) {
-
-        if (!surface_.isWalkable(point) || closedSet_.count(point) != 0) {
-          continue;
-        }
-
+        if (!surface_.isWalkable(point) || closedSet_.count(point) != 0) continue;
         size_t tempScore = gScore_[current] + surface_.distance(current, point);
 
         if (openSet_.count(point) == 0 || tempScore < gScore_[point]) {
           parents_[point] = current;
           gScore_[point] = tempScore;
-          fScore_[point] = gScore_[point] + this->heuristic(point);
-          if (openSet_.count(point) == 0)
-            openSet_.emplace(point);
+          fScore_[point] = gScore_[point] + surface_.distance(point, finish);
+          if (openSet_.count(point) == 0) openSet_.insert(point);
         }
       }
     }
 
-    return vector<P>{};
+    return point_vector{};
   }
 
-  template<typename P, typename M, typename H>
-  vector<P>
-  AStarRobot<P, M, H>::
-  restorePath(P start, P finish)
+  template<typename PointType, typename MeasureType, typename Hash>
+  typename AStarRobot<PointType, MeasureType, Hash>::point_vector
+  AStarRobot<PointType, MeasureType, Hash>::
+  restorePath(const PointType& start, const PointType& finish)
   {
-    vector<P> path{};
-    P current = finish;
+    point_vector path{};
+    PointType current = finish;
 
-    path.push_back(current);
-
-    while (current != start) {
-      if (parents_.count(current)) {
-        current = parents_[current];
+    try {
+      path.push_back(current);
+      while (current != start) {
+        current = parents_.at(current);
         path.push_back(current);
-      } else {
-        cout << "Error: no parent for current point" << endl;
-        break;
       }
+    } catch(const out_of_range& e) {
+      throw logic_error("No parent for current point");
     }
 
     return this->reversePath(path);
   }
 
-  template<typename P, typename M, typename H>
-  vector<P>&
-  AStarRobot<P, M, H>::
-  reversePath(vector<P>& path)
+  template<typename PointType, typename MeasureType, typename Hash>
+  typename AStarRobot<PointType, MeasureType, Hash>::point_vector&
+  AStarRobot<PointType, MeasureType, Hash>::
+  reversePath(point_vector& path)
   {
-    size_t last = path.size() - 1;
-    for (size_t i = 0; i <= last / 2; i++) {
-      P tmp = path[i];
-      path[i] = path[last - i];
-      path[last - i] = tmp;
-    }
-
+    reverse(path.begin(), path.end());
     return path;
   }
 
-  template<typename P, typename M, typename H>
-  P
-  AStarRobot<P, M, H>::
-  getMin()
+  template<typename PointType, typename MeasureType, typename Hash>
+  PointType
+  AStarRobot<PointType, MeasureType, Hash>::
+  popNextCell() // finds min Fscore in open set and pops its key
   {
     size_t minScore = 0;
-    P minPoint;
+    PointType minPoint;
 
     for (const auto& point: openSet_) {
       if (minScore == 0 || fScore_[point] < minScore) {
@@ -158,9 +122,9 @@ namespace explorer {
     return minPoint;
   }
 
-  template<typename P, typename M, typename H>
+  template<typename PointType, typename MeasureType, typename Hash>
   void
-  AStarRobot<P, M, H>::
+  AStarRobot<PointType, MeasureType, Hash>::
   clearData()
   {
     openSet_.clear();
@@ -168,14 +132,6 @@ namespace explorer {
     gScore_.clear();
     fScore_.clear();
     parents_.clear();
-  }
-
-  template<typename P, typename M, typename H>
-  size_t
-  AStarRobot<P, M, H>::
-  heuristic(P point) const
-  {
-    return surface_.distance(point, finish_);
   }
 
 } // end namespace explorer

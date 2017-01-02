@@ -4,6 +4,13 @@ using namespace std;
 
 namespace explorer {
 
+  ostream& operator<<(ostream& os, const Point& point)
+  {
+    os << point.toString();
+
+    return os;
+  }
+
 /* ************************** public methods SimpleSurface ************************** */
 
   SimpleSurface::
@@ -14,31 +21,27 @@ namespace explorer {
 
   bool
   SimpleSurface::
-  checkPath(vector<Point> path, Point start, Point finish) const
+  checkPath(const pointVector& path, const Point& start, const Point& finish) const
   {
     if (!isPointValid(start) || !isPointValid(finish)) {
-      cout << "Start or finish point is invalid" << endl;
-      cout << start.toString() << " " << finish.toString() << endl;
-      return false;
+      throw invalid_argument("Start or finish point is invalid.");
     }
     if (path.size() == 0) {
-      cout << "No path provided" << endl;
-      return false;
+      throw invalid_argument("No path provided");
     }
     if (path.front() != start || path.back() != finish) {
-      cout << "Error: start(finish) argument doesn't match path start(finish)" << endl;
-      return false;
+      throw logic_error("Error: start(finish) argument " \
+                        "doesn't match path start(finish)");
     }
 
     Point current = start;
     for (auto &point : path) {
       if (!isPointValid(point)) {
-        cout << "The point " << point.toString() << " is outside the surface bounds or is an obstacle." << endl;
-        return false;
+        throw logic_error("The point " + point.toString() +
+                          " is outside the surface bounds or is an obstacle.");
       }
       if (this->distance(current, point) > 1) {
-        cout << "Error: can't jump over cells" << endl;
-        return false;
+        throw logic_error("Error: can't jump over cells");
       }
       current = point;
     }
@@ -48,14 +51,14 @@ namespace explorer {
 
   bool
   SimpleSurface::
-  isWalkable(Point point) const
+  isWalkable(const Point& point) const
   {
     return this->isPointValid(point);
   }
 
   bool
   SimpleSurface::
-  setSurface(const vector<vector<unsigned char>>& surface)
+  setSurface(const surface_points& surface)
   {
     if (isBuilt_) {
       return false;
@@ -67,7 +70,7 @@ namespace explorer {
     return true;
   }
 
-  vector<vector<unsigned char>>
+  surface_points
   SimpleSurface::
   getSurface() const
   {
@@ -78,14 +81,15 @@ namespace explorer {
 
   bool
   SimpleSurface::
-  isPointValid(Point point) const
+  isPointValid(const Point& point) const
   {
-    return this->isPointWithinBounds(point) && !this->isObstacle(surface_[point.y][point.x]);
+    return this->isPointWithinBounds(point) &&
+           !this->isObstacle(surface_[point.y][point.x]);
   }
 
   bool
   SimpleSurface::
-  isPointWithinBounds(Point point) const
+  isPointWithinBounds(const Point& point) const
   {
     return point.x < this->getWidth() && point.y < this->getHeight();
   }
@@ -113,7 +117,7 @@ namespace explorer {
 
   bool
   SimpleSurface::
-  isBuilt()
+  isBuilt() const
   {
     return isBuilt_;
   }
@@ -121,13 +125,11 @@ namespace explorer {
 /* ************************** struct point_s ************************** */
 
   point_s::
-  point_s() :
-          x(0), y(0)
+  point_s() : x(0), y(0)
   {}
 
   point_s::
-  point_s(size_t x, size_t y) :
-          x(x), y(y)
+  point_s(size_t x, size_t y) : x(x), y(y)
   {}
 
   bool
@@ -145,8 +147,7 @@ namespace explorer {
   }
 
   string
-  point_s::
-  toString() const
+  point_s::toString() const
   {
     return "(" + to_string(this->x) + ", " + to_string(this->y) + ")";
   }
@@ -161,5 +162,3 @@ namespace explorer {
   }
 
 }
-
-

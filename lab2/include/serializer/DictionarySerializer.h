@@ -7,7 +7,7 @@
 
 namespace explorer {
 
-  class DictionarySerializer{
+  class DictionarySerializer {
     public:
       std::istream& readSurface(istream&, Dictionary&, bool lookForArgs = true) const;
       std::ostream& writeSurface(ostream&, const Dictionary&) const;

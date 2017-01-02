@@ -7,7 +7,7 @@ namespace explorer {
   readSurface(istream& is, Dictionary& dictionary, bool lookForArgs) const
   {
     if (dictionary.isBuilt()) {
-      return is;
+      throw logic_error("Cannot initialize a surface twice.");
     }
 
     unordered_map<size_t, vector<string>> surfaceRepr;

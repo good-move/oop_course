@@ -7,8 +7,8 @@ namespace explorer {
   distance(const Point& p1, const Point& p2) const
 
   {
-    size_t distY = p1.y > p2.y ? p1.y - p2.y : p2.y - p1.y;
-    size_t distX = p1.x > p2.x ? p1.x - p2.x : p2.x - p1.x;
+    size_t distY = max(p1.y, p2.y) - min(p1.y, p2.y);
+    size_t distX = max(p1.x, p2.x) - min(p1.x, p2.x);
 
     return distX + distY;
   }
@@ -16,7 +16,7 @@ namespace explorer {
 
   vector<Point>
   Plane::
-  lookup(Point point) const
+  lookup(const Point& point) const
   {
     vector<Point> neighborhood;
 

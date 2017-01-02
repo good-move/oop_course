@@ -4,17 +4,24 @@
 
 #include <unordered_map>
 #include <string>
-//#include <cmath>
 
-using namespace std;
+using std::unordered_map;
+using std::vector;
+using std::string;
+using std::max;
+using std::min;
+
 
 namespace explorer {
+
+  using Point = struct point_s;
+  using surface_points = vector<vector<unsigned char>>;
+  using pointVector = vector<Point>;
 
   enum PointTypes : unsigned char {
       Trail = 0, Obstacle, PathTile
   };
 
-  using Point = struct point_s;
 
   struct point_s {
     public:
@@ -35,23 +42,21 @@ namespace explorer {
   class SimpleSurface : public Surface<Point, size_t> {
     public:
       SimpleSurface();
-      virtual size_t distance(const Point&, const Point&) const = 0;
-      virtual vector<Point> lookup(Point) const = 0;
-      virtual bool isWalkable(Point) const override;
+      virtual bool isWalkable(const Point&) const override;
 
-      bool checkPath(vector<Point>, Point, Point) const override;
+      bool checkPath(const pointVector&, const Point&, const Point&) const override;
       size_t getWidth() const;
       size_t getHeight() const;
-      bool isBuilt();
-      bool setSurface(const vector<vector<unsigned char>>& surface);
-      vector<vector<unsigned char>> getSurface() const;
+      bool isBuilt() const;
+      bool setSurface(const surface_points& surface);
+      surface_points getSurface() const;
 
     protected:
-      bool isPointWithinBounds(Point) const;
-      bool isPointValid(Point) const;
+      bool isPointWithinBounds(const Point&) const;
+      bool isPointValid(const Point&) const;
       bool isObstacle(bool) const;
 
-      vector<vector<unsigned char>> surface_;
+      surface_points surface_;
       bool isBuilt_;
   };
 

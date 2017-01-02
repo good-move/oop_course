@@ -6210,8 +6210,8 @@ Gödel
 Gödel's
 Göteborg
 Göteborg's
-H
-H's
+Hash
+Hash's
 HF's
 HIV's
 HMO's
@@ -9126,8 +9126,8 @@ Lysistrata
 Lysistrata's
 Lysol
 Lysol's
-M
-M's
+MeasureType
+MeasureType's
 MA's
 MB's
 MBA's
@@ -11479,8 +11479,8 @@ Ozymandias
 Ozymandias's
 Ozzie
 Ozzie's
-P
-P's
+PointType
+PointType's
 PA's
 PAC's
 PBS's

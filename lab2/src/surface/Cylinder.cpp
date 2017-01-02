@@ -6,17 +6,17 @@ namespace explorer {
   Cylinder::
   distance(const Point& p1, const Point& p2) const
   {
-    size_t distY = p1.y > p2.y ? p1.y - p2.y : p2.y - p1.y;
-    size_t distX = p1.x > p2.x ? p1.x - p2.x : p2.x - p1.x;
+    size_t distY = max(p1.y, p2.y) - min(p1.y, p2.y);
+    size_t distX = max(p1.x, p2.x) - min(p1.x, p2.x);
 
-    distX = std::min(this->getWidth() - distX, distX);
+    distX = min(this->getWidth() - distX, distX);
 
     return distX + distY;
   }
 
   vector<Point>
   Cylinder::
-  lookup(Point point) const
+  lookup(const Point& point) const
   {
     vector<Point> neighborhood;
 

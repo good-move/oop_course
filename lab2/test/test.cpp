@@ -74,19 +74,16 @@ TEST(SimpleSurfaceTest, NegativeCasesInvalidPath)
   input.close();
 
   MESSAGE("Starting from obstacle");
+  EXPECT_THROW(robot.findPath(Point(0,0), Point(1,1)), std::invalid_argument);
 
-  auto path = robot.findPath(Point(0,0), Point(1,1));
-  EXPECT_EQ(path.size(), 0);
-
-  MESSAGE("Finishing on obstacle");
-
-  path = robot.findPath(Point(1,1), Point(0,0));
-  EXPECT_EQ(path.size(), 0);
-
+  MESSAGE("Finishing at obstacle");
+  EXPECT_THROW(robot.findPath(Point(1,1), Point(0,0)), std::invalid_argument);
 }
 
-TEST(SimpleSurfaceTest, NegativeCasesNoPath)
+TEST(SimpleSurfaceTest, NegativeCasesNoPath1)
 {
+  MESSAGE("No path for any simple surface");
+
   Plane plane;
   Cylinder cylinder;
   Torus torus;
@@ -107,21 +104,26 @@ TEST(SimpleSurfaceTest, NegativeCasesNoPath)
   simpleSurfaceSerializer.readSurface(input, torus);
   input.close();
 
-  MESSAGE("No path for any simple surface");
+  EXPECT_THROW(robotP.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotC.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotT.findPath(plane.start, plane.finish),
+               std::invalid_argument);
 
-  auto path = robotP.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+}
 
-  path = robotC.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+TEST(SimpleSurfaceTest, NegativeCasesNoPath2)
+{
+  Plane plane;
+  Cylinder cylinder;
+  Torus torus;
 
-  path = robotT.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+  AStarRobot<Point, size_t, PointHash> robotP(plane);
+  AStarRobot<Point, size_t, PointHash> robotC(cylinder);
+  AStarRobot<Point, size_t, PointHash> robotT(torus);
 
-
-  plane = Plane{};
-  cylinder = Cylinder{};
-  torus = Torus{};
+  ifstream input;
 
   input.open("maps/no_path2.txt");
   simpleSurfaceSerializer.readSurface(input, plane);
@@ -133,22 +135,30 @@ TEST(SimpleSurfaceTest, NegativeCasesNoPath)
   simpleSurfaceSerializer.readSurface(input, torus);
   input.close();
 
-  path = robotP.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+  EXPECT_THROW(robotP.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotC.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotT.findPath(plane.start, plane.finish),
+               std::invalid_argument);
 
-  path = robotC.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+}
 
-  path = robotT.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
+TEST(SimpleSurfaceTest, NegativeCasesNoPath3)
+{
+  Plane plane;
+  Cylinder cylinder;
+  Torus torus;
 
+  AStarRobot<Point, size_t, PointHash> robotP(plane);
+  AStarRobot<Point, size_t, PointHash> robotC(cylinder);
+  AStarRobot<Point, size_t, PointHash> robotT(torus);
 
-  plane = Plane{};
-  cylinder = Cylinder{};
-  torus = Torus{};
+  ifstream input;
 
   input.open("maps/no_path3.txt");
   simpleSurfaceSerializer.readSurface(input, plane);
+  input.close();
   input.open("maps/no_path3.txt");
   simpleSurfaceSerializer.readSurface(input, cylinder);
   input.close();
@@ -156,15 +166,12 @@ TEST(SimpleSurfaceTest, NegativeCasesNoPath)
   simpleSurfaceSerializer.readSurface(input, torus);
   input.close();
 
-  path = robotP.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
-
-  path = robotC.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
-
-  path = robotT.findPath(plane.start, plane.finish);
-  EXPECT_EQ(path.size(), 0);
-
+  EXPECT_THROW(robotP.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotC.findPath(plane.start, plane.finish),
+               std::invalid_argument);
+  EXPECT_THROW(robotT.findPath(plane.start, plane.finish),
+               std::invalid_argument);
 }
 
 TEST(SimpleSurfaceTest, TestTopology)
@@ -177,11 +184,13 @@ TEST(SimpleSurfaceTest, TestTopology)
 
   input.open("maps/topology_difference.txt");
   simpleSurfaceSerializer.readSurface(input, plane);
-  input.close();
-  input.open("maps/topology_difference.txt");
+
+  input.clear();
+  input.seekg(0);
   simpleSurfaceSerializer.readSurface(input, cylinder);
-  input.close();
-  input.open("maps/topology_difference.txt");
+
+  input.clear();
+  input.seekg(0);
   simpleSurfaceSerializer.readSurface(input, torus);
   input.close();
 
@@ -189,10 +198,9 @@ TEST(SimpleSurfaceTest, TestTopology)
   AStarRobot<Point, size_t, PointHash> robotC(cylinder);
   AStarRobot<Point, size_t, PointHash> robotT(torus);
 
-  auto path = robotP.findPath(plane.start, plane.finish);
-  ASSERT_EQ(path.size(), 0);
+  ASSERT_THROW(robotP.findPath(plane.start, plane.finish), std::invalid_argument);
 
-  path = robotC.findPath(cylinder.start, cylinder.finish);
+  auto path = robotC.findPath(cylinder.start, cylinder.finish);
   ASSERT_EQ(path.size(), 11);
 
   path = robotT.findPath(torus.start, torus.finish);
@@ -202,7 +210,6 @@ TEST(SimpleSurfaceTest, TestTopology)
 TEST(SimpleSurfaceTest, TestPlane)
 {
   ifstream input;
-
 
   Plane plane;
   AStarRobot<Point, size_t, PointHash> robot(plane);
@@ -303,12 +310,12 @@ TEST(SimpleSurfaceTest, TestTorus)
   EXPECT_EQ(path.size(), 13);
 }
 
-TEST(SimpleSurfaceTest, TestDict)
+TEST(Dictionary, TestDict1)
 {
   ifstream input;
 
   Dictionary dict;
-  input.open("dicts/custom_dict.txt");
+  input.open("dicts/custom_dict1.txt");
   dictionarySerializererializer.readSurface(input, dict, false);
   input.close();
 
@@ -320,27 +327,41 @@ TEST(SimpleSurfaceTest, TestDict)
   path = robot.findPath("mummy", "truck");
   EXPECT_EQ(path.size(), 10);
 
-  path = robot.findPath("jack", "jones");
-  EXPECT_EQ(path.size(), 0);
+  ASSERT_THROW(robot.findPath("jack", "jones"), std::logic_error);
 
   path = robot.findPath("dump", "rum");
   EXPECT_EQ(path.size(), 3);
 
-  path = robot.findPath("sick", "sick");
-  EXPECT_EQ(path.size(), 0);
+  ASSERT_THROW(robot.findPath("sick", "sick"), std::logic_error);
+}
 
+TEST(Dictionary, TestDict2)
+{
+  ifstream input;
 
-  Dictionary dict1;
-  input.open("dicts/custom_dict1.txt");
-  dictionarySerializererializer.readSurface(input, dict1, false);
+  Dictionary dict;
+  input.open("dicts/custom_dict2.txt");
+  dictionarySerializererializer.readSurface(input, dict, false);
   input.close();
 
-  AStarRobot<string, size_t, std::hash<string>> robot1(dict1);
-  path = robot1.findPath("cake", "chase");
+  AStarRobot<string, size_t, std::hash<string>> robot(dict);
+  auto path = robot.findPath("cake", "chase");
   EXPECT_EQ(path.size(), 3);
 }
 
+TEST(Dictionary, TestDict3)
+{
+  ifstream input;
 
+  Dictionary dict;
+  input.open("dicts/custom_dict3.txt");
+  dictionarySerializererializer.readSurface(input, dict, false);
+  input.close();
+
+  AStarRobot<string, size_t, std::hash<string>> robot(dict);
+  auto path = robot.findPath("dog", "bowl");
+  EXPECT_EQ(path.size(), 5);
+}
 
 
 int main(int argc, char* argv[])

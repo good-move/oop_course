@@ -1,18 +1,16 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
-#include <unordered_map>
 
 namespace explorer {
 
   template<typename PointType, typename MeasureType>
   class Surface {
     public:
-      virtual bool checkPath(std::vector<PointType>, PointType, PointType) const = 0;
+      virtual bool checkPath(const std::vector<PointType>&, const PointType&, const PointType&) const = 0;
       virtual MeasureType distance(const PointType&, const PointType&) const = 0;
-      virtual std::vector<PointType> lookup(PointType) const = 0;
-      virtual bool isWalkable(PointType) const = 0;
+      virtual std::vector<PointType> lookup(const PointType&) const = 0;
+      virtual bool isWalkable(const PointType&) const = 0;
 
       PointType start, finish;
   };
