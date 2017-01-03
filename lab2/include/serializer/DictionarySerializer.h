@@ -7,11 +7,14 @@
 
 namespace explorer {
 
-  class DictionarySerializer {
+  class DictionarySerializer : public SurfaceSerializer<Dictionary>{
     public:
-      std::istream& readSurface(istream&, Dictionary&, bool lookForArgs = true) const;
-      std::ostream& writeSurface(ostream&, const Dictionary&) const;
-      std::ostream& writePath(ostream&, const vector<string>&) const;
+      using SurfaceSerializer<Dictionary>::SurfaceInfo;
+      using typename SurfaceSerializer<Dictionary>::point_vector;
+
+      virtual SurfaceInfo readSurface(std::istream&, Dictionary&, bool lookForEndpoints = true) const final override;
+      virtual void writePath(std::ostream&, const Dictionary&, const point_vector&) const final override ;
+      virtual void writeSurface(std::ostream&, const Dictionary&) const final override;
   };
 
 }

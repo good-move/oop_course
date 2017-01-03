@@ -1,26 +1,30 @@
-#include "../../include/serializer/SimpleSurfaceSerializer.h"
+#include "../../include/serializer/PlanarSerializer.h"
+
+using namespace std;
 
 namespace explorer {
 
-  SimpleSurfaceSerializer::
-  SimpleSurfaceSerializer() :
+  PlanarSerializer::
+  PlanarSerializer() :
   trailSign_('.'), obstacleSign_('X'), pathSign_('*')
   {}
 
-  SimpleSurfaceSerializer::
-  SimpleSurfaceSerializer(char trailSign, char obstacleSign, char pathSign) :
+  PlanarSerializer::
+  PlanarSerializer(const char trailSign, const char obstacleSign, const char pathSign) :
     trailSign_(trailSign), obstacleSign_(obstacleSign), pathSign_(pathSign)
   {}
 
-  std::istream&
-  SimpleSurfaceSerializer::
-  readSurface(std::istream& is, SimpleSurface& surface, bool lookForArgs) const
+  SurfaceSerializer<Planar>::SurfaceInfo
+  PlanarSerializer::
+  readSurface(std::istream& is, Planar& surface, bool lookForEndpoints) const
   {
     if (surface.isBuilt()) {
       throw logic_error("Cannot initialize a surface twice.");
     }
 
-    vector<vector<unsigned char>> surfaceRepr;
+    surface_points surfaceRepr;
+    SurfaceInfo surfaceInfo;
+    surfaceInfo.lookForEndpoints = lookForEndpoints;
 
     bool startFound = false;
     bool finishFound = false;
@@ -32,27 +36,22 @@ namespace explorer {
         if (c == obstacleSign_) {
           this->addPoint(surfaceRepr, Point(x, y), Obstacle);
         }
-        else if (c == trailSign_) {
-            this->addPoint(surfaceRepr, Point(x, y), Trail);
-        }
-        else if (c == 'S' && lookForArgs) {
-          if (startFound) {
-            throw logic_error("There must be only one start point");
-          }
-          startFound = true;
-          surface.start = Point(x,y);
-          this->addPoint(surfaceRepr, Point(x, y), Trail);
-        }
-        else if (c == 'F' && lookForArgs) {
-          if (finishFound) {
-            throw logic_error("There must be only one finish point");
-          }
-          finishFound = true;
-          surface.finish = Point(x,y);
-          this->addPoint(surfaceRepr, Point(x, y), Trail);
-        }
         else {
-          throw std::invalid_argument(string{"Error. Unknown point type: "} + c);
+          this->addPoint(surfaceRepr, Point(x, y), Trail);
+          if (c == trailSign_){}
+          else if (c == 'S' && lookForEndpoints) {
+            if (startFound)
+              throw logic_error("There must be only one start point");
+            startFound = true;
+            surfaceInfo.start = Point(x, y);
+          } else if (c == 'F' && lookForEndpoints) {
+            if (finishFound)
+              throw logic_error("There must be only one finish point");
+            finishFound = true;
+            surfaceInfo.finish = Point(x, y);
+          } else {
+            throw invalid_argument(string{"Error. Unknown point type: "} + c);
+          }
         }
         x += 1;
       }
@@ -64,21 +63,19 @@ namespace explorer {
       surface.setSurface(surfaceRepr);
     }
 
-    return is;
+    return surfaceInfo;
   }
 
-  std::ostream&
-  SimpleSurfaceSerializer::
-  writeSurface(std::ostream& os, const SimpleSurface& surface) const
+  void
+  PlanarSerializer::
+  writeSurface(std::ostream& os, const Planar& surface) const
   {
     this->writeToStream(os, surface.getSurface());
-
-    return os;
   };
 
-  std::ostream&
-  SimpleSurfaceSerializer::
-  writePath(ostream& os, const SimpleSurface& surface, const vector<Point>& path) const
+  void
+  PlanarSerializer::
+  writePath(ostream& os, const Planar& surface, const vector<Point>& path) const
   {
     auto surfaceCopy = surface.getSurface();
 
@@ -94,13 +91,11 @@ namespace explorer {
     }
 
     this->writeToStream(os, surfaceCopy);
-
-    return os;
   }
 
   void
-  SimpleSurfaceSerializer::
-  addPoint(vector<vector<unsigned char>>& surface, Point point, unsigned char type) const
+  PlanarSerializer::
+  addPoint(surface_points& surface, Point point, unsigned char type) const
   {
     if (surface.size() <= point.y) {
       surface.push_back(std::vector<unsigned char>{});
@@ -110,8 +105,8 @@ namespace explorer {
   }
 
   bool
-  SimpleSurfaceSerializer::
-  isSurfaceValid(vector<vector<unsigned char>>& surface) const
+  PlanarSerializer::
+  isSurfaceValid(surface_points& surface) const
   {
     if (surface.size() == 0 || surface[0].size() == 0) {
       return false;
@@ -134,8 +129,8 @@ namespace explorer {
   }
 
   void
-  SimpleSurfaceSerializer::
-  writeToStream(ostream& os, const vector<vector<unsigned char>>& surface) const
+  PlanarSerializer::
+  writeToStream(ostream& os, const surface_points& surface) const
   {
     for (const auto &row : surface) {
       for (const auto &cell : row) {

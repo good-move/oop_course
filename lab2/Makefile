@@ -33,17 +33,17 @@ parser: anyoption.so
 anyoption.so:
 	$(CC) $(CFLAGS) -shared 3rd_party/anyoption/anyoption.cpp -o anyoption.so
 
-surface: serializer buildSurface buildSimpleSurface dictionary
+surface: serializer buildSurface buildPlanar dictionary
 
 serializer:
 	$(BASH_MK_DIR) build
-	$(CC) $(CFLAGS) $(SRC_DIR)/serializer/SimpleSurfaceSerializer.cpp -o $(BUILD_DIR)/simple_surf_serialzer.o
+	$(CC) $(CFLAGS) $(SRC_DIR)/serializer/PlanarSerializer.cpp -o $(BUILD_DIR)/simple_surf_serialzer.o
 	$(CC) $(CFLAGS) $(SRC_DIR)/serializer/DictionarySerializer.cpp -o $(BUILD_DIR)/dictionary_serialzer.o
 
 buildSurface:
-	$(CC) $(CFLAGS) $(SRC_DIR)/surface/SimpleSurface.cpp -o $(BUILD_DIR)/SimpleSurface.o
+	$(CC) $(CFLAGS) $(SRC_DIR)/surface/Planar.cpp -o $(BUILD_DIR)/Planar.o
 
-buildSimpleSurface: buildPlane buildCylinder buildTorus
+buildPlanar: buildPlane buildCylinder buildTorus
 
 buildPlane:
 	$(BASH_MK_DIR) lib
@@ -60,7 +60,7 @@ dictionary:
 
 test: libgtest.a
 	$(CC) $(LFLAGS) -pthread -isystem $(GTEST_DIR)/include -I $(GTEST_DIR) $(TEST_DIR)/test.cpp libgtest.a \
-	     $(BUILD_DIR)/SimpleSurface.o $(LIB_DIR)/torus_lib.so $(LIB_DIR)/cylinder_lib.so $(LIB_DIR)/plane_lib.so \
+	     $(BUILD_DIR)/Planar.o $(LIB_DIR)/torus_lib.so $(LIB_DIR)/cylinder_lib.so $(LIB_DIR)/plane_lib.so \
 	     $(BUILD_DIR)/simple_surf_serialzer.o $(BUILD_DIR)/dictionary_serialzer.o \
 	     $(LIB_DIR)/dictionary_lib.so \
 	    -o $(TEST_DIR)/test
@@ -72,12 +72,13 @@ libgtest.a:
 main: main.o
 	$(BASH_MK_DIR) $(BIN_DIR)
 	$(CC) $(LFLAGS) main.o \
-	     $(BUILD_DIR)/SimpleSurface.o $(LIB_DIR)/torus_lib.so $(LIB_DIR)/cylinder_lib.so $(LIB_DIR)/plane_lib.so \
+	     $(BUILD_DIR)/Planar.o $(LIB_DIR)/torus_lib.so $(LIB_DIR)/cylinder_lib.so $(LIB_DIR)/plane_lib.so \
 	     $(BUILD_DIR)/simple_surf_serialzer.o $(BUILD_DIR)/dictionary_serialzer.o \
 	     parser.o anyoption.so  $(LIB_DIR)/dictionary_lib.so \
 	    -o $(BIN_DIR)/$(MAIN_OUTPUT_NAME)
 main.o:
 	$(CC) $(CFLAGS) main.cpp -o main.o
+
 
 clean:
 	rm ./*.a *.o *.so

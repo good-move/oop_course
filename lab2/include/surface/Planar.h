@@ -15,8 +15,6 @@ using std::min;
 namespace explorer {
 
   using Point = struct point_s;
-  using surface_points = vector<vector<unsigned char>>;
-  using pointVector = vector<Point>;
 
   enum PointTypes : unsigned char {
       Trail = 0, Obstacle, PathTile
@@ -39,12 +37,15 @@ namespace explorer {
       size_t operator()(const Point&) const;
   };
 
-  class SimpleSurface : public Surface<Point, size_t> {
+  class Planar : public Surface<Point, size_t> {
     public:
-      SimpleSurface();
+      using surface_points = vector<vector<unsigned char>>;
+      using point_vector = vector<Point>;
+
+      Planar();
       virtual bool isWalkable(const Point&) const override;
 
-      bool checkPath(const pointVector&, const Point&, const Point&) const override;
+      bool checkPath(const point_vector&, const Point&, const Point&) const override;
       size_t getWidth() const;
       size_t getHeight() const;
       bool isBuilt() const;

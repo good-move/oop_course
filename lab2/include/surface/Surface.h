@@ -7,12 +7,13 @@ namespace explorer {
   template<typename PointType, typename MeasureType>
   class Surface {
     public:
-      virtual bool checkPath(const std::vector<PointType>&, const PointType&, const PointType&) const = 0;
-      virtual MeasureType distance(const PointType&, const PointType&) const = 0;
-      virtual std::vector<PointType> lookup(const PointType&) const = 0;
-      virtual bool isWalkable(const PointType&) const = 0;
+      using point_vector = std::vector<PointType>;
+      using point_type = PointType;
 
-      PointType start, finish;
+      virtual bool checkPath(const point_vector&, const PointType&, const PointType&) const = 0;
+      virtual MeasureType distance(const PointType&, const PointType&) const = 0;
+      virtual point_vector lookup(const PointType&) const = 0;
+      virtual bool isWalkable(const PointType&) const = 0;
   };
 
 }

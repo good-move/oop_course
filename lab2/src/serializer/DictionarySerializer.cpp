@@ -1,10 +1,14 @@
 #include "../../include/serializer/DictionarySerializer.h"
 
+using namespace std;
+
 namespace explorer {
 
-  std::istream&
+
+
+  SurfaceSerializer<Dictionary>::SurfaceInfo
   DictionarySerializer::
-  readSurface(istream& is, Dictionary& dictionary, bool lookForArgs) const
+  readSurface(istream& is, Dictionary& dictionary, bool lookForEndpoints) const
   {
     if (dictionary.isBuilt()) {
       throw logic_error("Cannot initialize a surface twice.");
@@ -14,17 +18,19 @@ namespace explorer {
 
     // assuming the input dictionary has one word per line
     string word;
+    SurfaceInfo surfaceInfo {};
+    surfaceInfo.lookForEndpoints = lookForEndpoints;
 
-    if (lookForArgs) {
+    if (lookForEndpoints) {
       if (!getline(is, word)) { // start word
         throw invalid_argument("Start point must be provided");
       }
-      dictionary.start = word;
+      surfaceInfo.start = word;
 
       if (!getline(is, word)) { // finish word
         throw invalid_argument("Finish point must be provided");
       }
-      dictionary.finish = word;
+      surfaceInfo.finish = word;
     }
 
     while (getline(is, word)) {
@@ -35,10 +41,10 @@ namespace explorer {
 
     dictionary.setSurface(surfaceRepr);
 
-    return is;
+    return surfaceInfo;
   }
 
-  std::ostream&
+  void
   DictionarySerializer::
   writeSurface(ostream& os, const Dictionary& dictionary) const
   {
@@ -49,19 +55,15 @@ namespace explorer {
         os << word << endl;
       }
     }
-
-    return os;
   }
 
-  std::ostream&
+  void
   DictionarySerializer::
-  writePath(ostream& os, const vector<string>& path) const
+  writePath(ostream& os, const Dictionary&, const point_vector& path) const
   {
     for (const auto& p: path) {
         os << p << endl;
     }
-
-    return os;
   }
 
 }

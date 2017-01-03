@@ -1,4 +1,4 @@
-#include "../../include/surface/SimpleSurface.h"
+#include "../../include/surface/Planar.h"
 
 using namespace std;
 
@@ -11,17 +11,17 @@ namespace explorer {
     return os;
   }
 
-/* ************************** public methods SimpleSurface ************************** */
+/* ************************** public methods Planar ************************** */
 
-  SimpleSurface::
-  SimpleSurface()
+  Planar::
+  Planar()
   {
     isBuilt_ = false;
   }
 
   bool
-  SimpleSurface::
-  checkPath(const pointVector& path, const Point& start, const Point& finish) const
+  Planar::
+  checkPath(const point_vector& path, const Point& start, const Point& finish) const
   {
     if (!isPointValid(start) || !isPointValid(finish)) {
       throw invalid_argument("Start or finish point is invalid.");
@@ -50,14 +50,14 @@ namespace explorer {
   }
 
   bool
-  SimpleSurface::
+  Planar::
   isWalkable(const Point& point) const
   {
     return this->isPointValid(point);
   }
 
   bool
-  SimpleSurface::
+  Planar::
   setSurface(const surface_points& surface)
   {
     if (isBuilt_) {
@@ -70,17 +70,17 @@ namespace explorer {
     return true;
   }
 
-  surface_points
-  SimpleSurface::
+  Planar::surface_points
+  Planar::
   getSurface() const
   {
     return surface_;
   }
 
-/* ********************** private methods SimpleSurface ********************** */
+/* ********************** private methods Planar ********************** */
 
   bool
-  SimpleSurface::
+  Planar::
   isPointValid(const Point& point) const
   {
     return this->isPointWithinBounds(point) &&
@@ -88,35 +88,35 @@ namespace explorer {
   }
 
   bool
-  SimpleSurface::
+  Planar::
   isPointWithinBounds(const Point& point) const
   {
     return point.x < this->getWidth() && point.y < this->getHeight();
   }
 
   bool
-  SimpleSurface::
+  Planar::
   isObstacle(bool pointType) const
   {
     return pointType == Obstacle;
   }
 
   size_t
-  SimpleSurface::
+  Planar::
   getWidth() const
   {
     return surface_.size() > 0 ? surface_[0].size() : 0;
   }
 
   size_t
-  SimpleSurface::
+  Planar::
   getHeight() const
   {
     return surface_.size();
   }
 
   bool
-  SimpleSurface::
+  Planar::
   isBuilt() const
   {
     return isBuilt_;
