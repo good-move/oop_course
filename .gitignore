@@ -3,6 +3,7 @@ CMakeLists.txt
 CMakeFiles
 CMakeScripts
 cmake_install.cmake
+cmake-build-debug
 install_manifest.txt
 CTestTestfile.cmake
 .idea
