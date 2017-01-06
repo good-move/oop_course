@@ -8,7 +8,7 @@ class TuplePrinter {
   public:
     static void print(std::ostream& os, const Type& value) {
       if (I > Size) throw std::invalid_argument(
-                "Error: tuple element index is greater than its size");
+                "Error: tuple element index is greater than tuple size");
 
       os << std::get<I>(value) << ", ";
       TuplePrinter<Type, I + 1, Size>::print(os, value);

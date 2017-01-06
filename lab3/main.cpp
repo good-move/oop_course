@@ -1,14 +1,13 @@
 #include <tuple>
 #include <iostream>
+#include <fstream>
 
 #include "TuplePrinter.h"
+#include "CSVParser.h"
 
 using namespace std;
 
 
 int main()
 {
-  tuple<int, double, int, string> t{1, 2.4, 15, "hello"};
-
-  cout << t;
-}
+};
