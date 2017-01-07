@@ -46,11 +46,11 @@ namespace explorer {
       virtual bool isWalkable(const Point&) const override;
 
       bool checkPath(const point_vector&, const Point&, const Point&) const override;
-      size_t getWidth() const;
-      size_t getHeight() const;
-      bool isBuilt() const;
       bool setSurface(const surface_points& surface);
       surface_points getSurface() const;
+      size_t getHeight() const;
+      size_t getWidth() const;
+      bool isBuilt() const;
 
     protected:
       bool isPointWithinBounds(const Point&) const;

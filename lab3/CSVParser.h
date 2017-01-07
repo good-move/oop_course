@@ -1,7 +1,6 @@
-#pragma once
-
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <tuple>
@@ -13,143 +12,295 @@ using std::vector;
 using std::tuple;
 
 template <class ...Args>
-class CSCParser;
+class CSVParser;
 
-template <class PointerType, class ValueType>
-class CSVParserIterator;
+template <class ...Args>
+class CSVIterator;
 
 
 namespace {
-  template <class ...Types> struct StringParser;
+
+  template <class T>
+  tuple<T> convert_to_tuple(const string& str) {
+    T t;
+    stringstream ss(str);
+    ss >> t;
+    if (ss.fail()) throw std::invalid_argument("Cannot parse string " + str);
+
+    return tuple<T>{t};
+  }
+
+  template <class ...Types> struct RowParser;
 
   template <>
-  struct StringParser<> {
+  struct RowParser<> {
       static tuple<int> parse(size_t index, const vector<string>& items) {
-        throw std::invalid_argument("No type provided to parse a string.");
+        throw std::invalid_argument("No type provided to parse a row.");
       };
   };
 
   template <class T>
-  struct StringParser<T> {
+  struct RowParser<T> {
       static tuple<T> parse(size_t index, const vector<string>& items) {
-        T t;
-        stringstream ss(items.at(index));
-        ss >> t;
-        tuple<T> tuple(t);
-
-        return tuple;
+        try {
+          return convert_to_tuple<T>(items.at(index));
+        } catch (std::invalid_argument&){
+          throw std::invalid_argument(std::to_string(index));
+        }
       };
   };
 
   template <class T, class ...Types>
-  struct StringParser<T, Types...> {
+  struct RowParser<T, Types...> {
       static tuple<T, Types...> parse(size_t index, const vector<string>& items) {
         // add check for ...Types size
-
-        T t;
-        stringstream ss(items.at(index));
-        ss >> t;
-        tuple<T> tuple(t);
-
-        return std::tuple_cat(tuple, StringParser<Types...>::parse(index + 1, items));
+        tuple<T> tuple;
+        try {
+          tuple = convert_to_tuple<T>(items.at(index));
+        } catch (std::invalid_argument&){
+          throw std::invalid_argument(std::to_string(index));
+        }
+        return std::tuple_cat(tuple, RowParser<Types...>::parse(index + 1, items));
       }
   };
 }
 
 
-
 template <class ...Args>
-class CSVParser {
+class CSVParser{
   public:
-    using csv_parser_iterator = CSVParserIterator<CSVParser<Args...>*, tuple<Args...>>;
+    using csv_iterator = CSVIterator<Args...>;
 
-    CSVParser(string fname) : filename_(fname) {};
+    CSVParser(const string& fname);
 
-    csv_parser_iterator begin();
-    csv_parser_iterator end();
+    tuple<Args...> getRow();
 
-    void split(std::istream&, const char, vector<string>&, size_t maxElements = 1);
-    vector<string> getRow(std::istream &);
-    tuple<Args...> parse(const vector<string>& items) {
-      return StringParser<Args...>::parse(0, items);
-    };
+    csv_iterator begin() { return csv_iterator(this, stream_.eof()); };
+    csv_iterator end() { return csv_iterator(this, true); };
 
   private:
-    string filename_;
+    void splitStream(std::istream&, const char, vector<string>&, size_t maxElements = 1);
+    vector<string> splitLine(const string&);
+    string readLine();
+
+    tuple<Args...> parseLine(const vector<string> &items) {
+      return RowParser<Args...>::parse(0, items);
+    };
+
+    std::ifstream stream_;
     char colDelim_ = ',';
     char rowDelim_ = '\n';
-    char screenChar_ = '"';
+    char escapeChar_ = '\\';
 };
+
+
+
+template <class ...Args>
+CSVParser<Args...>::
+CSVParser(const string& fname)
+{
+  stream_.open(fname);
+
+  if (stream_.fail()) throw std::runtime_error("Couldn't open file " + fname);
+}
+
+template <class ...Args>
+tuple<Args...>
+CSVParser<Args...>::
+getRow()
+{
+  if (!stream_.eof())
+    return parseLine(splitLine(readLine()));
+
+  throw std::out_of_range("End of file is reached.");
+}
+
+template <class ...Args>
+string
+CSVParser<Args...>::
+readLine()
+{
+  vector<string> lineVector;
+  splitStream(stream_, rowDelim_, lineVector);
+
+  if (lineVector.size() == 1) {
+    return lineVector.front();
+  }
+
+  throw std::runtime_error("Couldn't read from input stream.");
+}
 
 
 template <class ...Args>
 vector<string>
 CSVParser<Args...>::
-getRow(std::istream &is)
+splitLine(const string& line)
 {
-  vector<string> rowVector;
-  split(is, rowDelim_, rowVector);
+  vector<string> rowItems;
+  stringstream ss(line);
+  splitStream(ss, colDelim_, rowItems, line.length());
 
-  if (rowVector.size() == 1) {
-    string row = rowVector[0];
-    vector<string> rowElements;
-    stringstream ss(row);
-    split(ss, colDelim_, rowElements, row.length());
-    return rowElements;
+  if (rowItems.size() != sizeof...(Args)) {
+    string msg = "Invalid row length";
+    throw std::invalid_argument(msg);
   }
 
-  throw std::runtime_error("Couldn't read from input stream.");
-
-
-//  MOVE THIS TO ANOTHER FUNCTION
-//    if (rowElements.size() != sizeof...(Args)) {
-//      throw std::invalid_argument("Invalid row length. Expected " + sizeof...(Args));
-//    }
-
+  return rowItems;
 }
 
 template <class ...Args>
 void
 CSVParser<Args...>::
-split(std::istream& is, const char delimiter, vector<string> &elements, size_t maxElements)
+splitStream(std::istream& is, const char delimiter, vector<string>& items,
+            size_t maxElements)
 {
-  bool screeningIsOn = false;
-  string element;
+  bool escapeIsOn = false;
+  string item;
   char c;
 
   while (!is.eof() && maxElements > 0) {
     is.get(c);
 
-    if (c == screenChar_) {
-      screeningIsOn = true;
+    if (!escapeIsOn && c == escapeChar_) {
+      escapeIsOn = true;
       continue;
     }
 
-    if (!screeningIsOn && c == delimiter || is.eof()) {
-      if (element.length() > 0) {
-        elements.push_back(element);
-        element = "";
+    if ((!escapeIsOn && c == delimiter) || is.eof()) {
+      if (item.length() > 0) {
+        items.push_back(item);
+        item = "";
         --maxElements;
       }
       continue;
     }
 
-    element += c;
+    item += c;
+    escapeIsOn = false;
   }
 }
 
-template <class ...Args>
-typename CSVParser<Args...>::csv_parser_iterator
-CSVParser<Args...>::
-begin()
-{
 
+template <class ...Args>
+class CSVIterator {
+  public:
+    using iterator = CSVIterator<Args...>;
+    using pointer_type = CSVParser<Args...>*;
+    using return_type = tuple<Args...>;
+
+    CSVIterator(pointer_type pointer, bool isEofReached);
+    CSVIterator(const iterator&);
+    iterator& operator=(const iterator&);
+
+    bool operator==(const iterator&) const;
+    bool operator!=(const iterator&) const;
+    iterator operator++(int);
+    iterator operator++();
+//    return_type operator->() const;
+    return_type operator*() const;
+
+  private:
+    pointer_type pointer_;
+    return_type value_;
+    bool isEofReached_;
+    bool isInitialized_ = false;
+};
+
+
+template <class ...Args>
+CSVIterator<Args...>::
+CSVIterator(pointer_type pointer, bool isEofReached)
+{
+  pointer_ = pointer;
+  isEofReached_ = isEofReached;
+
+  try {
+    if (!isEofReached)
+      value_ = pointer_->getRow();
+  } catch (std::out_of_range &e) {
+    isEofReached_ = true;
+  }
+}
+
+
+template <class ...Args>
+CSVIterator<Args...>::
+CSVIterator(const iterator& otherIt)
+{
+  pointer_ = otherIt.pointer_;
+  isEofReached_ = otherIt.isEofReached_;
+  isInitialized_ = otherIt.isInitialized_;
 }
 
 template <class ...Args>
-typename CSVParser<Args...>::csv_parser_iterator
-CSVParser<Args...>::
-end()
+typename CSVIterator<Args...>::iterator&
+CSVIterator<Args...>::
+operator=(const iterator& otherIt)
 {
+  if (this != &otherIt) {
+    pointer_ = otherIt.pointer_;
+    isEofReached_ = otherIt.isEofReached_;
+    isInitialized_ = otherIt.isInitialized_;
+  }
 
+  return *this;
+}
+
+template <class ...Args>
+bool
+CSVIterator<Args...>::
+operator==(const iterator& otherIt) const
+{
+  return pointer_ == otherIt.pointer_ &&
+         isEofReached_ == otherIt.isEofReached_;
+}
+
+template <class ...Args>
+bool
+CSVIterator<Args...>::
+operator!=(const iterator& otherIt) const
+{
+  return !(*this == otherIt);
+}
+
+template <class ...Args>
+typename CSVIterator<Args...>::iterator
+CSVIterator<Args...>::
+operator++()
+{
+  if (isEofReached_) throw std::out_of_range("");
+
+  try {
+    value_ = pointer_->getRow();
+  } catch (std::out_of_range &e) {
+    isEofReached_ = true;
+  }
+
+  return *this;
+}
+
+template <class ...Args>
+typename CSVIterator<Args...>::iterator
+CSVIterator<Args...>::
+operator++(int)
+{
+  if (isEofReached_) throw std::out_of_range("");
+  iterator oldIt(*this);
+
+  try {
+    value_ = pointer_->getRow();
+  } catch (std::out_of_range &e) {
+    isEofReached_ = true;
+  }
+
+  return oldIt;
+}
+
+template <class ...Args>
+typename CSVIterator<Args...>::return_type
+CSVIterator<Args...>::
+operator*() const
+{
+  if (isEofReached_) throw std::out_of_range("End of file is reached.");
+  return value_;
 }
