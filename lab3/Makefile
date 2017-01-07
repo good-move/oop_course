@@ -9,7 +9,7 @@ TEST_DIR=test
 
 OUT_NAME= CSVParser.out
 
-HEADERS= CSVParser.h CSVIterator.h
+HEADERS= CSVParser.h
 
 
 all: main
