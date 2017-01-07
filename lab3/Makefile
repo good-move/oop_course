@@ -2,10 +2,20 @@ CC=g++
 LFLAGS= -Wall -Werror -g -std=c++11
 CFLAGS= -c $(LFLAGS)
 
-OUT_NAME= CSVParser
 
-all:
-	 $(CC) $(LFLAGS) CSVParser.h CSVIterator.h main.cpp -o $(OUT_NAME)
+BIN_DIR=bin
+BUILD_DIR=build
+TEST_DIR=test
+
+OUT_NAME= CSVParser.out
+
+HEADERS= CSVParser.h CSVIterator.h
+
+
+all: main
+
+main:
+	 $(CC) $(LFLAGS) $(HEADERS) main.cpp -o $(BIN_DIR)/$(OUT_NAME)
 
 clean:
 	 rm *.o
