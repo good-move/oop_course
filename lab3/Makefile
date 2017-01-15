@@ -25,7 +25,7 @@ main:
 test: $(BUILD_DIR)/gtest-all.o $(BUILD_DIR)/test.o
 	 $(CC) $(LFLAGS) -pthread $(BUILD_DIR)/gtest-all.o $(BUILD_DIR)/test.o -o $(TEST_DIR)/$(TEST_OUT_NAME)
 
-$(BUILD_DIR)/test.o: $(TEST_DIR)/test.cpp
+$(BUILD_DIR)/test.o: $(TEST_DIR)/test.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -pthread -isystem $(GTEST_DIR)/include $(TEST_DIR)/test.cpp -o $(BUILD_DIR)/test.o
 
 $(BUILD_DIR)/gtest-all.o: $(GTEST_DIR)/src/gtest-all.cc

@@ -20,6 +20,9 @@ class CSVIterator;
 
 namespace {
 
+//  utility functions that turn vector<string> into tuple with
+//  corresponding types
+
   template <class T>
   tuple<T> wrap_in_tuple(const string &str) {
     T t;
@@ -71,7 +74,7 @@ namespace {
 
 
 template <class ...Args>
-class CSVParser{
+class CSVParser {
   public:
     using csv_iterator = CSVIterator<Args...>;
 
@@ -80,25 +83,17 @@ class CSVParser{
               const char& colDelim = ',',
               const char& escapeChar = '"');
 
-    tuple<Args...> getNextRow();
-    tuple<Args...> getCachedRow();
-
-    csv_iterator begin() { return csv_iterator(this, false); };
-    csv_iterator end() { return csv_iterator(this, true); };
+    friend class CSVIterator<Args...>;
+    csv_iterator begin() { return CSVIterator<Args...>{this, false, filename_}; };
+    csv_iterator end() { return CSVIterator<Args...>{this, true, filename_}; };
 
   private:
-    void split(vector<string>&);
-    vector<string> readRow();
+    tuple<Args...> parseRow(const vector<string>&) const;
+    tuple<Args...> getNextRow(ifstream&, size_t) const;
+    void split(ifstream&, vector<string>&) const;
+    vector<string> readRow(ifstream&) const;
 
-    tuple<Args...> parseRow(const vector<string>& items) {
-      if (sizeof...(Args) != items.size())
-        throw std::invalid_argument("invalid row length");
-      return RowParser<Args...>::parse(0, items);
-    };
-
-    tuple<Args...> cached_;
-    std::ifstream stream_;
-    size_t rowsRead_ = 0;
+    string filename_;
     char escapeChar_;
     char rowDelim_;
     char colDelim_;
@@ -111,67 +106,67 @@ CSVParser(const string& fname,
           const char& colDelim,
           const char& escapeChar)
 {
+  filename_ = fname;
   colDelim_ = colDelim;
   rowDelim_ = rowDelim;
   escapeChar_ = escapeChar;
-  stream_.open(fname);
-
-  if (stream_.fail()) throw std::runtime_error("Couldn't open file " + fname);
 }
 
 template <class ...Args>
 tuple<Args...>
 CSVParser<Args...>::
-getNextRow()
+getNextRow(ifstream& stream, size_t rowNumber) const
 {
   try {
-    if (!stream_.eof()) {
-      cached_ = parseRow(readRow());
-      return cached_;
+    if (!stream.eof()) {
+      return parseRow(readRow(stream));
     }
   } catch (std::invalid_argument& e) {
-    stream_.setstate(std::ios_base::iostate::_S_eofbit);
+    stream.setstate(std::ios_base::iostate::_S_eofbit);
+
     throw std::invalid_argument(string("Error while parsing row ") +
-                                std::to_string(rowsRead_) + ", " + e.what());
+                                std::to_string(rowNumber) + ", " + e.what());
   }
   throw std::out_of_range("End of file is reached.");
 }
 
 template <class ...Args>
-tuple<Args...>
+vector<string>
 CSVParser<Args...>::
-getCachedRow()
+readRow(ifstream& stream) const
 {
-  return (rowsRead_ == 0) ? getNextRow() : cached_;
+  vector<string> row;
+  split(stream, row);
+  return row;
 }
 
 template <class ...Args>
-vector<string>
+tuple<Args...>
 CSVParser<Args...>::
-readRow()
+parseRow(const vector<string> &items) const
 {
-  vector<string> row;
-  split(row);
-  rowsRead_++;
-  return row;
+  if (sizeof...(Args) != items.size())
+    throw std::invalid_argument("invalid row length");
+
+  return RowParser<Args...>::parse(0, items);
 }
 
 template <class ...Args>
 void
 CSVParser<Args...>::
-split(vector<string>& items)
+split(ifstream& stream, vector<string>& items) const
 {
   bool escapeIsOn = false;
   char c = escapeChar_;
   string item;
 
-  while (!stream_.eof()) {
-    stream_.get(c);
+  while (!stream.eof()) {
+    stream.get(c);
 
     if (c == escapeChar_) {
       if (escapeIsOn) {
-        stream_.get(c);
-        escapeIsOn = (c == escapeChar_ && !stream_.eof());
+        stream.get(c);
+        escapeIsOn = (c == escapeChar_ && !stream.eof());
       } else {
         escapeIsOn = true;
         continue;
@@ -179,7 +174,7 @@ split(vector<string>& items)
     }
 
     if ((!escapeIsOn && (c == colDelim_ || c == rowDelim_)) ||
-        stream_.eof()
+        stream.eof()
         ) {
       items.push_back(item);
       item = "";
@@ -201,7 +196,7 @@ class CSVIterator {
     using pointer_type = CSVParser<Args...>*;
     using return_type = tuple<Args...>;
 
-    CSVIterator(pointer_type pointer, bool isEofReached);
+    CSVIterator(pointer_type, bool, const string&);
     CSVIterator(const iterator&);
     iterator& operator=(const iterator&);
 
@@ -218,25 +213,26 @@ class CSVIterator {
     pointer_type pointer_;
     return_type value_;
     bool isEofReached_;
+    ifstream stream_;
+    size_t rowCount_;
 };
 
 
 
 template <class ...Args>
 CSVIterator<Args...>::
-CSVIterator(pointer_type pointer, bool isEofReached)
+CSVIterator(pointer_type pointer, bool isEofReached, const string& filename)
 {
   pointer_ = pointer;
   isEofReached_ = isEofReached;
+  stream_.open(filename);
+  rowCount_ = 1;
 
-  try {
-    value_ = pointer_->getCachedRow();
-  } catch (std::out_of_range &e) {
-    std::cout << e.what() << std::endl;
-    isEofReached_ = true;
-  } catch (std::invalid_argument& e) {
-    isEofReached_ = true;
-    std::cout << e.what() << std::endl;
+  if (!stream_.is_open())
+    throw std::runtime_error("Couldn't open file " + filename);
+
+  if (!isEofReached) {
+    value_ = pointer_->getNextRow(stream_, rowCount_++);
   }
 }
 
@@ -244,6 +240,7 @@ template <class ...Args>
 CSVIterator<Args...>::
 CSVIterator(const iterator& otherIt)
 {
+  value_ = otherIt.value_;
   pointer_ = otherIt.pointer_;
   isEofReached_ = otherIt.isEofReached_;
 }
@@ -254,6 +251,7 @@ CSVIterator<Args...>::
 operator=(const iterator& otherIt)
 {
   if (this != &otherIt) {
+    value_ = otherIt.value_;
     pointer_ = otherIt.pointer_;
     isEofReached_ = otherIt.isEofReached_;
   }
@@ -267,7 +265,8 @@ CSVIterator<Args...>::
 operator==(const iterator& otherIt) const
 {
   return pointer_ == otherIt.pointer_ &&
-         isEofReached_ == otherIt.isEofReached_;
+          (isEofReached_ == otherIt.isEofReached_?
+           true : rowCount_ == otherIt.rowCount_);
 }
 
 template <class ...Args>
@@ -326,11 +325,8 @@ CSVIterator<Args...>::
 iterate()
 {
   try {
-    value_ = pointer_->getNextRow();
+    value_ = pointer_->getNextRow(stream_, rowCount_++);
   } catch (std::out_of_range& e) {
-    isEofReached_ = true;
-  } catch (std::invalid_argument& e) {
-    std::cout << e.what();
     isEofReached_ = true;
   }
 }
