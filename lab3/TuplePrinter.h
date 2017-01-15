@@ -3,26 +3,32 @@
 #include <tuple>
 #include <iostream>
 
-template<typename Type, unsigned I, unsigned Size>
-class TuplePrinter {
-  public:
-    static void print(std::ostream& os, const Type& value) {
-      if (I > Size) throw std::invalid_argument(
-                "Error: tuple element index is greater than tuple size");
+namespace {
 
-      os << std::get<I>(value) << ", ";
-      TuplePrinter<Type, I + 1, Size>::print(os, value);
-    }
-};
+  template<typename Type, unsigned I, unsigned Size>
+  class TuplePrinter {
+    public:
+      static void print(std::ostream &os, const Type &value)
+      {
+        if (I > Size)
+          throw std::invalid_argument(
+                  "Error: tuple element index is greater than tuple size");
 
-template<typename Type, unsigned I>
-class TuplePrinter<Type, I, I> {
-  public:
-    static void print(std::ostream& os, const Type& value) {
-      os << std::get<I>(value);
-    }
-};
+        os << std::get<I>(value) << ", ";
+        TuplePrinter<Type, I + 1, Size>::print(os, value);
+      }
+  };
 
+  template<typename Type, unsigned I>
+  class TuplePrinter<Type, I, I> {
+    public:
+      static void print(std::ostream &os, const Type &value)
+      {
+        os << std::get<I>(value);
+      }
+  };
+
+}
 
 template <class Ch, class Tr, class ...Args>
 std::basic_ostream<Ch, Tr>&

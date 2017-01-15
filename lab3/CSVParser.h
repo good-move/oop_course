@@ -21,13 +21,18 @@ class CSVIterator;
 namespace {
 
   template <class T>
-  tuple<T> convert_to_tuple(const string& str) {
+  tuple<T> wrap_in_tuple(const string &str) {
     T t;
     stringstream ss(str);
     ss >> t;
     if (ss.fail()) throw std::invalid_argument("Cannot parse string " + str);
 
     return tuple<T>{t};
+  }
+
+  template <>
+  tuple<string> wrap_in_tuple(const string &str) {
+    return tuple<string>{str};
   }
 
   template <class ...Types> struct RowParser;
@@ -43,9 +48,9 @@ namespace {
   struct RowParser<T> {
       static tuple<T> parse(size_t index, const vector<string>& items) {
         try {
-          return convert_to_tuple<T>(items.at(index));
+          return wrap_in_tuple<T>(items.at(index));
         } catch (std::invalid_argument&){
-          throw std::invalid_argument(std::to_string(index+1));
+          throw std::invalid_argument("column " + std::to_string(index+1));
         }
       };
   };
@@ -53,12 +58,11 @@ namespace {
   template <class T, class ...Types>
   struct RowParser<T, Types...> {
       static tuple<T, Types...> parse(size_t index, const vector<string>& items) {
-        // add check for ...Types size
         tuple<T> tuple;
         try {
-          tuple = convert_to_tuple<T>(items.at(index));
+          tuple = wrap_in_tuple<T>(items.at(index));
         } catch (std::invalid_argument&){
-          throw std::invalid_argument(std::to_string(index+1));
+          throw std::invalid_argument("column " + std::to_string(index+1));
         }
         return std::tuple_cat(tuple, RowParser<Types...>::parse(index + 1, items));
       }
@@ -74,12 +78,12 @@ class CSVParser{
     CSVParser(const string& fname,
               const char& rowDelim = '\n',
               const char& colDelim = ',',
-              const char& escapeChar = '\\');
+              const char& escapeChar = '"');
 
     tuple<Args...> getNextRow();
     tuple<Args...> getCachedRow();
 
-    csv_iterator begin() { return csv_iterator(this, stream_.eof()); };
+    csv_iterator begin() { return csv_iterator(this, false); };
     csv_iterator end() { return csv_iterator(this, true); };
 
   private:
@@ -87,6 +91,8 @@ class CSVParser{
     vector<string> readRow();
 
     tuple<Args...> parseRow(const vector<string>& items) {
+      if (sizeof...(Args) != items.size())
+        throw std::invalid_argument("invalid row length");
       return RowParser<Args...>::parse(0, items);
     };
 
@@ -124,9 +130,9 @@ getNextRow()
       return cached_;
     }
   } catch (std::invalid_argument& e) {
-    throw std::invalid_argument(string("Error while parsing item at row ") +
-                                std::to_string(rowsRead_) +
-                                string(", column ") + e.what());
+    stream_.setstate(std::ios_base::iostate::_S_eofbit);
+    throw std::invalid_argument(string("Error while parsing row ") +
+                                std::to_string(rowsRead_) + ", " + e.what());
   }
   throw std::out_of_range("End of file is reached.");
 }
@@ -159,23 +165,32 @@ split(vector<string>& items)
   char c = escapeChar_;
   string item;
 
-  while (!stream_.eof() && c != rowDelim_) {
+  while (!stream_.eof()) {
     stream_.get(c);
 
-    if (!escapeIsOn && c == escapeChar_) {
-      escapeIsOn = true;
-      continue;
+    if (c == escapeChar_) {
+      if (escapeIsOn) {
+        stream_.get(c);
+        escapeIsOn = (c == escapeChar_ && !stream_.eof());
+      } else {
+        escapeIsOn = true;
+        continue;
+      }
     }
 
-    if ((!escapeIsOn && (c == colDelim_ || c == rowDelim_)) || stream_.eof()) {
+    if ((!escapeIsOn && (c == colDelim_ || c == rowDelim_)) ||
+        stream_.eof()
+        ) {
       items.push_back(item);
       item = "";
-      continue;
+      if (c == rowDelim_) break;
+      else continue;
     }
 
     item += c;
-    escapeIsOn = false;
   }
+
+  if (escapeIsOn) throw std::logic_error("Escape sequence is not closed");
 }
 
 
@@ -192,10 +207,10 @@ class CSVIterator {
 
     bool operator==(const iterator&) const;
     bool operator!=(const iterator&) const;
-    iterator operator++(int);
-    iterator operator++();
     return_type* operator->() const;
     return_type operator*() const;
+    iterator operator++(int);
+    iterator operator++();
 
   private:
     void iterate();
@@ -206,6 +221,7 @@ class CSVIterator {
 };
 
 
+
 template <class ...Args>
 CSVIterator<Args...>::
 CSVIterator(pointer_type pointer, bool isEofReached)
@@ -214,17 +230,15 @@ CSVIterator(pointer_type pointer, bool isEofReached)
   isEofReached_ = isEofReached;
 
   try {
-    if (!isEofReached)
-      value_ = pointer_->getCachedRow();
+    value_ = pointer_->getCachedRow();
   } catch (std::out_of_range &e) {
-    std::cout << e.what();
+    std::cout << e.what() << std::endl;
     isEofReached_ = true;
   } catch (std::invalid_argument& e) {
-    std::cout << e.what();
     isEofReached_ = true;
+    std::cout << e.what() << std::endl;
   }
 }
-
 
 template <class ...Args>
 CSVIterator<Args...>::
@@ -287,7 +301,7 @@ typename CSVIterator<Args...>::iterator
 CSVIterator<Args...>::
 operator++()
 {
-  if (isEofReached_) throw std::out_of_range("");
+  if (isEofReached_) throw std::out_of_range("End of file is reached.");
   iterate();
 
   return *this;
@@ -298,7 +312,7 @@ typename CSVIterator<Args...>::iterator
 CSVIterator<Args...>::
 operator++(int)
 {
-  if (isEofReached_) throw std::out_of_range("");
+  if (isEofReached_) throw std::out_of_range("End of file is reached.");
   iterator oldIt(*this);
 
   iterate();
