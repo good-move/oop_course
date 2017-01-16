@@ -211,20 +211,49 @@ TEST(Parser, CustomControls3) {
   ASSERT_EQ(expected_line3, *++it);
 }
 
-TEST(Parser, Iterator1) {
+
+TEST(Parser, IteratorCopyConstructor) {
   WRITE("Test iterator");
 
+  CSVParser<string, double, int> parser(CSV_DIR + "/multiple_lines.csv");
+
+  CSVIterator<string, double, int> it1 = parser.begin();
+  CSVIterator<string, double, int> it2 = it1;
+
+  ASSERT_EQ(*it1, *it2);
+  ++it1;
+  ASSERT_NE(*it1, *it2);
+  ++it2;
+  ASSERT_EQ(*it1, *it2);
+}
+
+TEST(Parser, IteratorCopyAssignment) {
+  CSVParser<string, double, int> parser(CSV_DIR + "/multiple_lines.csv");
+  CSVIterator<string, double, int> it1 = parser.begin();
+  it1++;
+  CSVIterator<string, double, int> it2 = it1;
+  it2 = it1;
+
+  ASSERT_EQ(*it1, *it2);
+  ++it1;
+  ASSERT_NE(*it1, *it2);
+  ++it2;
+  ASSERT_EQ(*it1, *it2);
+}
+
+TEST(Parser, StartEquality) {
+  // expecting all iterators to begin at the same position
   CSVParser<string, string, string> parser(CSV_DIR + "/simple_lines.csv");
 
   CSVIterator<string, string, string> it1 = parser.begin();
   CSVIterator<string, string, string> it2 = parser.begin();
   CSVIterator<string, string, string> it3 = parser.begin();
 
-  EXPECT_EQ(*it1, *it2);
-  EXPECT_EQ(*it2, *it3);
+  ASSERT_EQ(*it1, *it2);
+  ASSERT_EQ(*it2, *it3);
 }
 
-TEST(Parser, Iterator2) {
+TEST(Parser, PreIncrementOperator) {
   CSVParser<string, double, int> parser(CSV_DIR + "/multiple_lines.csv");
 
   CSVIterator<string, double, int> it1 = parser.begin();
@@ -233,7 +262,16 @@ TEST(Parser, Iterator2) {
   EXPECT_NE(*it1, *++it2);
 }
 
-TEST(Parser, Iterator3) {
+TEST(Parser, PostIncrementOperator) {
+  CSVParser<string, double, int> parser(CSV_DIR + "/multiple_lines.csv");
+
+  CSVIterator<string, double, int> it1 = parser.begin();
+  CSVIterator<string, double, int> it2 = parser.begin();
+
+  EXPECT_EQ(*it1, *it2++);
+}
+
+TEST(Parser, EndOutOfRange) {
   CSVParser<string, string, string> parser(CSV_DIR + "/simple_lines.csv");
 
   CSVIterator<string, string, string> it1 = parser.end();
@@ -241,7 +279,7 @@ TEST(Parser, Iterator3) {
   EXPECT_THROW(*it1, out_of_range);
 }
 
-TEST(Parser, Iterator4) {
+TEST(Parser, BeginOutOfRange) {
   CSVParser<string, string, string> parser(CSV_DIR + "/simple_lines.csv");
 
   CSVIterator<string, string, string> begin = parser.begin();
@@ -252,7 +290,7 @@ TEST(Parser, Iterator4) {
   EXPECT_THROW(*++begin, out_of_range);
 }
 
-TEST(Parser, Iterator5) {
+TEST(Parser, OutOfRangeCopy) {
   CSVParser<string, string, string> parser(CSV_DIR + "/simple_lines.csv");
 
   CSVIterator<string, string, string> begin = parser.begin();
