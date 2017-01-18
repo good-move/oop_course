@@ -26,13 +26,13 @@ namespace explorer {
       point_vector lookup(const point_type&) const override;
       bool isWalkable(const point_type&) const override;
 
-      surface_points getSurface() const;
       void setSurface(const surface_points&);
+      surface_points getSurface() const;
       bool isBuilt() const;
 
     private:
-      bool isInDict(const point_type&) const;
       bool isWordValid(const point_type&) const;
+      bool isInDict(const point_type&) const;
 
       surface_points dictionary_;
       bool isBuilt_;
