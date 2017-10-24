@@ -1,4 +1,4 @@
-##Description
+## Description
 
 The project implements the idea of walking from point A to point B in some 
 space via the shortest path.
@@ -8,7 +8,7 @@ It's up to you to decide which space to go through. The only constraint is that 
 
 There's only one path finding algorithm supported at the moment - A* - and it's very efficient. 
 
-##Usage
+## Usage
 
 1. Run `make` in the root directory. Hopefully, this will generate *bin*, *build*, *lib* directories. 
 2. Go to *test* directory and run `./test` to make sure everything works fine.
